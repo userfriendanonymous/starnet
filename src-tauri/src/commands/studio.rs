@@ -1,5 +1,5 @@
 use tauri::State;
-use crate::{AppState, session::{Studio, User, Comment, StudioAction}, cursor::Cursor};
+use crate::{AppState, session::{Studio, User, Comment, StudioAction, StudioProject}, cursor::Cursor};
 
 #[tauri::command]
 pub(crate) async fn studio(state: State<'_, AppState>, id: u64) -> Result<Studio, ()> {
@@ -9,6 +9,11 @@ pub(crate) async fn studio(state: State<'_, AppState>, id: u64) -> Result<Studio
 #[tauri::command]
 pub(crate) async fn studio_thumbnail(state: State<'_, AppState>, id: u64, width: u16, height: u16) -> Result<Vec<u8>, ()> {
     state.session.studio_thumbnail(id, width, height).await
+}
+
+#[tauri::command]
+pub(crate) async fn studio_projects(state: State<'_, AppState>, id: u64, cursor: Cursor) -> Result<Vec<StudioProject>, ()> {
+    state.session.studio_projects(id, cursor.into()).await
 }
 
 #[tauri::command]

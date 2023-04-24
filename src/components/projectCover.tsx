@@ -4,10 +4,15 @@ import U8Img from '@/u8-img'
 import usePromiseState from '@/use-promise-state'
 import { Project3 } from '@bind/Project3'
 
+export interface ProjectCoverData {
+    id: bigint
+    title: string
+}
+
 export default function ProjectCover({
     data, open
 }: {
-    data: Project3
+    data: ProjectCoverData
     open: Open
 }) {
     const [thumbnail] = usePromiseState(() => projectThumbnail(Number(data.id), 200, 200))

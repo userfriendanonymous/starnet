@@ -94,6 +94,33 @@ impl StudioStats {
         }
     }
 }
+
+#[derive(Serialize, Debug, TS)]
+#[ts(export)]
+#[serde( rename_all = "camelCase" )]
+pub struct StudioProject {
+    pub id: u64,
+    pub title: String,
+    pub name: String,
+    pub actor_id: u64,
+    pub creator_id: u64,
+}
+
+impl StudioProject {
+    pub fn new(data: s2rs::api::StudioProject) -> Self {
+        Self {
+            actor_id: data.actor_id,
+            creator_id: data.creator_id,
+            id: data.id,
+            name: data.name,
+            title: data.title
+        }
+    }
+
+    pub fn vec_new(data: Vec<s2rs::api::StudioProject>) -> Vec<Self> {
+        data.into_iter().map(Self::new).collect()
+    }
+}
 // endregion: structs
 
 impl Session {
@@ -105,6 +132,11 @@ impl Session {
     pub async fn studio_thumbnail(&self, id: u64, width: u16, height: u16) -> Result<Vec<u8>, ()> {
         let data = self.api.read().await.studio_thumbnail(id, width, height).await.map_err(|_| ())?;
         Ok(data)
+    }
+
+    pub async fn studio_projects(&self, id: u64, cursor: s2rs::Cursor) -> Result<Vec<StudioProject>, ()> {
+        let data = self.api.read().await.studio_projects(id, cursor).await.map_err(|_| ())?;
+        Ok(StudioProject::vec_new(data))
     }
 
     pub async fn studio_curators(&self, id: u64, cursor: s2rs::Cursor) -> Result<Vec<User>, ()> {

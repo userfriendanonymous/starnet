@@ -28,6 +28,7 @@ fn main() {
             commands::user_comments,
             commands::project, commands::project_thumbnail, commands::project_comments,
             commands::studio, commands::studio_thumbnail, commands::studio_curators, commands::studio_managers, commands::studio_comments, commands::studio_activity,
+            commands::studio_projects
 
         ])
         .run(tauri::generate_context!())
