@@ -1,6 +1,6 @@
 use serde::Serialize;
 use ts_rs::TS;
-use super::{Session, UserHistory};
+use super::{Session, UserHistory, Comment};
 
 // region: Entities
 
@@ -144,6 +144,11 @@ impl Project3 {
             visibility: data.visibility
         }
     }
+
+    
+    pub fn vec_new(data: Vec<s2rs::api::Project3>) -> Vec<Self> {
+        data.into_iter().map(Self::new).collect()
+    }
 }
 // endregion: Project3
 
@@ -198,5 +203,10 @@ impl Session {
     pub async fn project_thumbnail(&self, id: u64, width: u16, height: u16) -> Result<Vec<u8>, ()> {
         let data = self.api.read().await.project_thumbnail(id, width, height).await.map_err(|_| ())?;
         Ok(data)
+    }
+
+    pub async fn project_comments(&self, id: u64, cursor: s2rs::Cursor) -> Result<Vec<Comment>, ()> {
+        let data = self.api.read().await.project_comments(id, cursor).await.map_err(|_| ())?;
+        Ok(Comment::vec_new(data))
     }
 }

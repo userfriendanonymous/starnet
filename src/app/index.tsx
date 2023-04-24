@@ -1,12 +1,12 @@
 import { useCallback, useState } from "react"
 import { useImmer } from "use-immer"
-import TabHandles from "../tab-handles"
-import useTabManager from "../tab-manager"
-import Tabs from "../tabs"
+import TabHandles from "./tab-handles"
+import useTabManager from "./tab-manager"
+import Tabs from "./tabs"
 import Home from "../tabs/home"
 import { Route } from "../router"
-import ControlPanel from "../control-panel"
-import TopPanel from "../top-panel"
+import ControlPanel from "./control-panel"
+import TopPanel from "./top-panel"
 
 export default function App() {
     const tabManager = useTabManager()

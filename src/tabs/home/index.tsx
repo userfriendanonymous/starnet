@@ -1,5 +1,5 @@
 import { useCallback, useRef } from "react"
-import { Open } from "../../tab-manager"
+import { Open } from "../../app/tab-manager"
 import User from "../user"
 
 export default function Home({open}: {open: Open}) {
@@ -14,7 +14,7 @@ export default function Home({open}: {open: Open}) {
 
     const onOpenProject = useCallback(() => {
         let id = Number(projectIdRef.current.value)
-        open({to: 'project', id}, 'Project - ' + id)
+        open({to: 'project', id}, 'Project - ' + String(id))
     }, [open])
 
     const onOpenStudio = useCallback(() => {

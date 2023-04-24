@@ -1,4 +1,4 @@
-import { Manager as TabManager, Open } from "../tab-manager"
+import { Manager as TabManager, Open } from "@/app/tab-manager"
 import Home from "../tabs/home"
 import Project from "../tabs/project"
 import Studio from "../tabs/studio"

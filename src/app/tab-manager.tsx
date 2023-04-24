@@ -1,6 +1,6 @@
 import { ReactNode, useCallback, useRef, useState } from "react"
 import { useImmer } from "use-immer"
-import { Route } from "./router"
+import { Route } from "../router"
 
 export type Tab = {
     id: number

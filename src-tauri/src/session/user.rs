@@ -1,6 +1,6 @@
 use serde::Serialize;
 use ts_rs::TS;
-use super::{Session, Project3};
+use super::{Session, Project3, Studio, UserComment};
 
 // region: User
 #[derive(Serialize, TS)]
@@ -17,7 +17,7 @@ pub struct User {
 }
 
 impl User {
-    fn new(data: s2rs::api::User) -> Self {
+    pub fn new(data: s2rs::api::User) -> Self {
         Self {
             bio: data.profile.bio,
             country: data.profile.country,
@@ -27,6 +27,10 @@ impl User {
             status: data.profile.status,
             name: data.name,
         }
+    }
+
+    pub fn vec_new(data: Vec<s2rs::api::User>) -> Vec<Self> {
+        data.into_iter().map(Self::new).collect()
     }
 }
 // endregion: User
@@ -61,10 +65,29 @@ impl Session {
         Ok(data)
     }
 
-    pub async fn user_projects(&self, name: &str) -> Result<Vec<Project3>, ()> {
+    pub async fn user_projects(&self, name: &str, cursor: s2rs::Cursor) -> Result<Vec<Project3>, ()> {
         let api = self.api.read().await;
-        let data = api.user_projects(name, (0, None)).await.map_err(|_| ())?;
-        let data = data.into_iter().map(Project3::new).collect();
-        Ok(data)
+        let data = api.user_projects(name, cursor).await.map_err(|_| ())?;
+        Ok(Project3::vec_new(data))
+    }
+
+    pub async fn user_favorites(&self, name: &str, cursor: s2rs::Cursor) -> Result<Vec<Project3>, ()> {
+        let api = self.api.read().await;
+        let data = api.user_favorites(name, cursor).await.map_err(|_| ())?;
+        Ok(Project3::vec_new(data))
+    }
+
+    pub async fn user_curating_studios(&self, name: &str, cursor: s2rs::Cursor) -> Result<Vec<Studio>, ()> {
+        let api = self.api.read().await;
+        let data = api.user_curating_studios(name, cursor).await.map_err(|_| ())?;
+        Ok(Studio::vec_new(data))
+    }
+
+    pub async fn user_comments(&self, name: &str, cursor: s2rs::Cursor) -> Result<Vec<UserComment>, ()> {
+        let api = self.api.read().await;
+        let data = api.user_comments(name, cursor).await.map_err(|e| {
+            dbg!(e);
+        })?;
+        Ok(UserComment::vec_new(data))
     }
 }

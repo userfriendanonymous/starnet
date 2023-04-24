@@ -1,5 +1,5 @@
 import { ReactElement, ReactNode } from "react"
-import Router, { Route } from "./router"
+import Router, { Route } from "../router"
 import { Manager as TabManager, Open, Tab } from "./tab-manager"
 
 export default function Tabs({tabManager}: {

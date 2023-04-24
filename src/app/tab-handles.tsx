@@ -1,4 +1,4 @@
-import Router from "./router"
+import Router from "../router"
 import Tab from "./tabs"
 import {Manager as TabManager} from "./tab-manager"
 

@@ -19,12 +19,13 @@ export default function usePromiseState<T, E>(fn: () => Promise<T>): [State<T, E
             let data = await fn()
             setState({ is: 'ok', data })
         } catch (e) {
+            console.log(e)
             setState({ is: 'err', err: e as E })
         }
     }, [])
 
     useEffect(() => {
-        if (isInit.current == false) { return }
+        if (isInit.current == true) { return }
         isInit.current = true
         run()
     }, [])

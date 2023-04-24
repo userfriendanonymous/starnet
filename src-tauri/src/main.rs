@@ -6,6 +6,7 @@ use tokio::sync::RwLock;
 
 mod session;
 mod commands;
+mod cursor;
 #[cfg(test)] mod tests;
 
 struct AppState {
@@ -23,8 +24,10 @@ fn main() {
         .manage(state)
         .invoke_handler(tauri::generate_handler![
 
-            commands::user, commands::user_projects,
-            commands::project, commands::project_thumbnail,
+            commands::user, commands::user_projects, commands::user_icon, commands::user_curating_studios, commands::user_favorites,
+            commands::user_comments,
+            commands::project, commands::project_thumbnail, commands::project_comments,
+            commands::studio, commands::studio_thumbnail, commands::studio_curators, commands::studio_managers, commands::studio_comments, commands::studio_activity,
 
         ])
         .run(tauri::generate_context!())
