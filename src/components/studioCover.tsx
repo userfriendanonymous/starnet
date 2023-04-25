@@ -4,12 +4,18 @@ import { studioThumbnail } from '@/commands/studio'
 import U8Img from '@/u8-img'
 import usePromiseState from '@/use-promise-state'
 import { Studio } from '@bind/Studio'
+import { Studio2 } from '@bind/Studio2'
 import StudioThumbnail from './studioThumbnail'
+
+export interface Data {
+    id: number
+    title: string
+}
 
 export default function StudioCover({
     data, open
 }: {
-    data: Studio
+    data: Data
     open: Open
 }) {
     return (

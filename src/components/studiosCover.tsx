@@ -1,10 +1,9 @@
 import { Open } from "@/app/tab-manager"
 import { State } from "@/use-promise-state"
-import { Studio } from "@bind/Studio"
-import StudioCover from "./studioCover"
+import StudioCover, { Data } from "./studioCover"
 
 export default function StudiosCover({state, open, title}: {
-    state: State<Studio[], any>
+    state: State<Data[], any>
     open: Open
     title: string
 }) {

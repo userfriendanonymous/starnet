@@ -1,20 +1,16 @@
 import { invoke } from "@tauri-apps/api"
-import { useCallback, useEffect, useRef, useState } from "react"
 import { Open } from "@/app/tab-manager"
-import { Project as ProjectData } from '@bind/Project'
-import U8Img from '@/u8-img'
 import usePromiseState from "@/use-promise-state"
-import {favoriteProject, loveProject, project, projectComments, projectThumbnail} from "@/commands/project"
-import { sendUserComment, userIcon } from "@/commands/user"
+import {favoriteProject, loveProject, project, projectThumbnail} from "@/commands/project"
+import { sendUserComment, userIcon, userProjectComments } from "@/commands/user"
 import UserIcon from "@/components/userIcon"
-import Comments from "@/components/comments"
+import CommentsDisplay from "@/components/comments"
 
 export default function Project({open, id}: {
     id: number
     open: Open
 }) {
     const [state] = usePromiseState(() => project(id))
-    const [comments] = usePromiseState(() => projectComments(id, {start: 0, end: null}))
 
     return (
         <div>{
@@ -89,19 +85,28 @@ export default function Project({open, id}: {
                     </div>
                 </div>
                 
-                {
-                    comments.is == 'ok' ?
-                    <Comments data={comments.data}/>
-                    : comments.is == 'loading' ?
-                    <div>Loading...</div>
-                    :
-                    <div>Error</div>
-                }
+                <Comments authorName={state.data.author.name} id={id}/>
             </div>
             : state.is == 'loading' ?
             <div>Loading...</div>
             :
             <div>Error</div>
         }</div>
+    )
+}
+
+function Comments({authorName, id}: {
+    authorName: string
+    id: number
+}) {
+    const [state] = usePromiseState(() => userProjectComments(authorName, id, {start: 0, end: null}))
+
+    return (
+        state.is == 'ok' ?
+        <CommentsDisplay data={state.data}/>
+        : state.is == 'loading' ?
+        <div>Loading...</div>
+        :
+        <div>Error</div>
     )
 }

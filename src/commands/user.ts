@@ -1,10 +1,11 @@
-import { Studio } from '@bind/Studio';
+import { Studio2 } from '@bind/Studio2';
 import { User } from "@bind/User";
 import { Cursor } from "@bind/Cursor";
 import { invoke } from "@tauri-apps/api";
 import { Project3 } from "@bind/Project3";
 import { UserComment } from '@bind/UserComment';
 import { resultifyPromise } from '@/result';
+import { Comment } from '@bind/Comment'
 
 export function user(name: string) {
     return resultifyPromise<User, Error>( invoke('user', {name}) )
@@ -23,11 +24,15 @@ export function userFavorites(name: string, cursor: Cursor) {
 }
 
 export function userCuratingStudios(name: string, cursor: Cursor) {
-    return resultifyPromise<Studio, Error>( invoke('user_curating_studios', {name, cursor}) )
+    return resultifyPromise<Studio2, Error>( invoke('user_curating_studios', {name, cursor}) )
 }
 
 export function userComments(name: string, cursor: Cursor) {
     return resultifyPromise<UserComment[], Error>( invoke('user_comments', {name, cursor}) )
+}
+
+export function userProjectComments(name: string, id: number, cursor: Cursor) {
+    return resultifyPromise<Comment[], Error>( invoke('user_project_comments', {name, id, cursor}) )
 }
 
 export function sendUserComment(name: string, content: string, parentId?: number, toId?: number) {

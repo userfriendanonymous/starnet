@@ -11,6 +11,7 @@ import ProjectsCover from "@/components/projectsCover"
 import UserIcon from "@/components/userIcon"
 import StudiosCover from "@/components/studiosCover"
 import Comments from "./comments"
+import { Data as StudioCoverData } from "@/components/studioCover"
 
 interface Props {
     name: string
@@ -63,7 +64,7 @@ export default function User({open, name}: Props) {
 
                 <ProjectsCover title="Shared Projects" open={open} state={projects}/>
                 <ProjectsCover title="Favorited Projects" open={open} state={favorites}/>
-                <StudiosCover title="Curating Studios" open={open} state={curatingStudios}/>
+                <StudiosCover title="Curating Studios" open={open} state={curatingStudios as State<StudioCoverData[], any>}/>
 
                 <div className="flex flex-col gap-[0.4rem]">
                     <div className="text-[1.5rem] font-bold">Send Comment</div>

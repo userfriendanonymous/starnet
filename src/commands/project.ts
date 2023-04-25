@@ -14,10 +14,6 @@ export function projectThumbnail(id: number, width: number, height: number) {
     return resultifyPromise<number[], Error>( invoke('project_thumbnail', {id, width, height}) )
 }
 
-export function projectComments(id: number, cursor: Cursor) {
-    return resultifyPromise<Comment[], Error>( invoke('project_comments', {id, cursor}) )
-}
-
 export function loveProject(id: number) {
     return resultifyPromise<null, Error>( invoke('love_project', {id}) )
 }

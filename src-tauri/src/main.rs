@@ -25,8 +25,8 @@ fn main() {
         .invoke_handler(tauri::generate_handler![
 
             commands::user, commands::user_projects, commands::user_icon, commands::user_curating_studios, commands::user_favorites,
-            commands::user_comments, commands::send_user_comment,
-            commands::project, commands::project_thumbnail, commands::project_comments, commands::love_project, commands::favorite_project,
+            commands::user_comments, commands::send_user_comment, commands::user_project_comments,
+            commands::project, commands::project_thumbnail, commands::love_project, commands::favorite_project,
             commands::studio, commands::studio_thumbnail, commands::studio_curators, commands::studio_managers, commands::studio_comments, commands::studio_activity,
             commands::studio_projects,
             commands::login,

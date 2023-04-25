@@ -1,5 +1,5 @@
 use tauri::State;
-use crate::{AppState, session::{User, Project3, Studio, UserComment, Result}, cursor::Cursor};
+use crate::{AppState, session::{User, Project3, UserComment, Result, Studio2, Comment}, cursor::Cursor};
 
 #[tauri::command]
 pub(crate) async fn user(state: State<'_, AppState>, name: &str) -> Result<User> {
@@ -22,13 +22,18 @@ pub(crate) async fn user_favorites(state: State<'_, AppState>, name: &str, curso
 }
 
 #[tauri::command]
-pub(crate) async fn user_curating_studios(state: State<'_, AppState>, name: &str, cursor: Cursor) -> Result<Vec<Studio>> {
+pub(crate) async fn user_curating_studios(state: State<'_, AppState>, name: &str, cursor: Cursor) -> Result<Vec<Studio2>> {
     state.session.user_curating_studios(name, cursor.into()).await
 }
 
 #[tauri::command]
 pub(crate) async fn user_comments(state: State<'_, AppState>, name: &str, cursor: Cursor) -> Result<Vec<UserComment>> {
     state.session.user_comments(name, cursor.into()).await
+}
+
+#[tauri::command]
+pub(crate) async fn user_project_comments(state: State<'_, AppState>, name: &str, id: u64, cursor: Cursor) -> Result<Vec<Comment>> {
+    state.session.user_project_comments(name, id, cursor.into()).await
 }
 
 #[tauri::command]

@@ -1,3 +1,4 @@
+use s2rs::api::StudioInfo;
 use serde::Serialize;
 use ts_rs::TS;
 use super::{Session, User, Comment, StudioAction};
@@ -34,10 +35,6 @@ impl Studio {
             visibility: data.visibility
         }
     }
-
-    pub fn vec_new(data: Vec<s2rs::api::Studio>) -> Vec<Self> {
-        data.into_iter().map(Self::new).collect()
-    }
 }
 
 
@@ -53,8 +50,27 @@ pub struct Studio2 {
     pub public: bool,
     pub open_to_all: bool,
     pub comments_allowed: bool,
-    pub image: String,
     pub history: StudioHistory,
+}
+
+impl Studio2 {
+    pub fn new(data: s2rs::api::Studio2) -> Self {
+        Self {
+            comments_allowed: data.comments_allowed,
+            description: data.description,
+            history: StudioHistory::new(data.history),
+            host: data.host,
+            id: data.id,
+            open_to_all: data.open_to_all,
+            public: data.public,
+            title: data.title,
+            visibility: data.visibility
+        }
+    }
+
+    pub fn vec_new(data: Vec<s2rs::api::Studio2>) -> Vec<Self> {
+        data.into_iter().map(Self::new).collect()
+    }
 }
 
 #[derive(Serialize, Debug, TS)]
@@ -162,5 +178,67 @@ impl Session {
             }
         )?;
         Ok(StudioAction::vec_new(data))
+    }
+
+    pub async fn follow_studio(&self, id: u64) -> super::Result<()> {
+        Ok(self.api.read().await.follow_studio(id).await?)
+    }
+
+    pub async fn unfollow_studio(&self, id: u64) -> super::Result<()> {
+        Ok(self.api.read().await.unfollow_studio(id).await?)
+    }
+
+    pub async fn add_studio_project(&self, id: u64, project_id: u64) -> super::Result<()> {
+        Ok(self.api.read().await.add_studio_project(id, project_id).await?)
+    }
+
+    pub async fn remove_studio_project(&self, id: u64, project_id: u64) -> super::Result<()> {
+        Ok(self.api.read().await.remove_studio_project(id, project_id).await?)
+    }
+
+    pub async fn send_studio_comment(&self, id: u64, content: &str, parent_id: Option<u64>, to_id: Option<u64>) -> super::Result<()> {
+        Ok(self.api.read().await.send_studio_comment(id, content, parent_id, to_id).await?)
+    }
+
+    pub async fn invite_studio_curator(&self, id: u64, name: &str) -> super::Result<()> {
+        Ok(self.api.read().await.invite_studio_curator(id, name).await?)
+    }
+
+    pub async fn remove_studio_curator(&self, id: u64, name: &str) -> super::Result<()> {
+        Ok(self.api.read().await.remove_studio_curator(id, name).await?)
+    }
+
+    pub async fn set_studio_title(&self, id: u64, content: String) -> super::Result<()> {
+        Ok(self.api.read().await.set_studio_info(id, &StudioInfo {
+            description: None,
+            title: Some(content)
+        }).await?)
+    }
+
+    pub async fn set_studio_description(&self, id: u64, content: String) -> super::Result<()> {
+        Ok(self.api.read().await.set_studio_info(id, &StudioInfo {
+            description: Some(content),
+            title: None
+        }).await?)
+    }
+
+    pub async fn toggle_studio_commenting(&self, id: u64) -> super::Result<()> {
+        Ok(self.api.read().await.toggle_studio_commenting(id).await?)
+    }
+
+    pub async fn accept_studio_invite(&self, id: u64) -> super::Result<()> {
+        Ok(self.api.read().await.accept_studio_invite(id).await?)
+    }
+
+    pub async fn open_studio(&self, id: u64) -> super::Result<()> {
+        Ok(self.api.read().await.open_studio(id).await?)
+    }
+
+    pub async fn close_studio(&self, id: u64) -> super::Result<()> {
+        Ok(self.api.read().await.close_studio(id).await?)
+    }
+
+    pub async fn promote_studio_curator(&self, id: u64, name: &str) -> super::Result<()> {
+        Ok(self.api.read().await.promote_studio_curator(id, name).await?)
     }
 }

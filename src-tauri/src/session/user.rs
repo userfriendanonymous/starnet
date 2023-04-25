@@ -1,6 +1,7 @@
+use s2rs::api::UserInfo;
 use serde::Serialize;
 use ts_rs::TS;
-use super::{Session, Project3, Studio, UserComment};
+use super::{Session, Project3, UserComment, Comment, Studio2};
 
 // region: User
 #[derive(Serialize, TS)]
@@ -77,10 +78,15 @@ impl Session {
         Ok(Project3::vec_new(data))
     }
 
-    pub async fn user_curating_studios(&self, name: &str, cursor: s2rs::Cursor) -> super::Result<Vec<Studio>> {
+    pub async fn user_curating_studios(&self, name: &str, cursor: s2rs::Cursor) -> super::Result<Vec<Studio2>> {
         let api = self.api.read().await;
         let data = api.user_curating_studios(name, cursor).await?;
-        Ok(Studio::vec_new(data))
+        Ok(Studio2::vec_new(data))
+    }
+
+    pub async fn user_project_comments(&self, name: &str, id: u64, cursor: s2rs::Cursor) -> super::Result<Vec<Comment>> {
+        let data = self.api.read().await.user_project_comments(name, id, cursor).await?;
+        Ok(Comment::vec_new(data))
     }
 
     pub async fn user_comments(&self, name: &str, cursor: s2rs::Cursor) -> super::Result<Vec<UserComment>> {
@@ -95,9 +101,40 @@ impl Session {
     }
 
     pub async fn send_user_comment(&self, name: &str, content: String, parent_id: Option<u64>, to_id: Option<u64>) -> super::Result<()> {
-        Ok(self.api.read().await.send_user_comment(name, content, parent_id, to_id).await.map_err(|e| {
-            dbg![ &e ];
-            e
-        })?)
+        Ok(self.api.read().await.send_user_comment(name, content, parent_id, to_id).await?)
+    }
+
+    pub async fn follow_user(&self, name: &str) -> super::Result<()> {
+        self.api.read().await.follow_user(name).await?;
+        Ok(())
+    }
+
+    pub async fn unfollow_user(&self, name: &str) -> super::Result<()> {
+        self.api.read().await.unfollow_user(name).await?;
+        Ok(())
+    }
+
+    pub async fn set_my_bio(&self, content: String) -> super::Result<()> {
+        self.api.read().await.set_user_info(&UserInfo {
+            bio: Some(content),
+            ..Default::default()
+        }).await?;
+        Ok(())
+    }
+
+    pub async fn set_my_status(&self, content: String) -> super::Result<()> {
+        self.api.read().await.set_user_info(&UserInfo {
+            status: Some(content),
+            ..Default::default()
+        }).await?;
+        Ok(())
+    }
+
+    pub async fn toggle_user_commenting(&self, content: String) -> super::Result<()> {
+        self.api.read().await.toggle_user_commenting(&UserInfo {
+            status: Some(content),
+            ..Default::default()
+        }).await?;
+        Ok(())
     }
 }
