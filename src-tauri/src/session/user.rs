@@ -53,41 +53,44 @@ impl UserHistory {
 // endregion: UserHistory
 
 impl Session {
-    pub async fn user(&self, name: &str) -> Result<User, ()> {
+    pub async fn user(&self, name: &str) -> super::Result<User> {
         let api = self.api.read().await;
-        let data = api.user_meta(name).await.map_err(|_| ())?;
+        let data = api.user_meta(name).await?;
         Ok(User::new(data))
     }
 
-    pub async fn user_icon(&self, id: u64, width: u16, height: u16) -> Result<Vec<u8>, ()> {
+    pub async fn user_icon(&self, id: u64, width: u16, height: u16) -> super::Result<Vec<u8>> {
         let api = self.api.read().await;
-        let data = api.user_icon(id, width, height).await.map_err(|_| ())?;
+        let data = api.user_icon(id, width, height).await?;
         Ok(data)
     }
 
-    pub async fn user_projects(&self, name: &str, cursor: s2rs::Cursor) -> Result<Vec<Project3>, ()> {
+    pub async fn user_projects(&self, name: &str, cursor: s2rs::Cursor) -> super::Result<Vec<Project3>> {
         let api = self.api.read().await;
-        let data = api.user_projects(name, cursor).await.map_err(|_| ())?;
+        let data = api.user_projects(name, cursor).await?;
         Ok(Project3::vec_new(data))
     }
 
-    pub async fn user_favorites(&self, name: &str, cursor: s2rs::Cursor) -> Result<Vec<Project3>, ()> {
+    pub async fn user_favorites(&self, name: &str, cursor: s2rs::Cursor) -> super::Result<Vec<Project3>> {
         let api = self.api.read().await;
-        let data = api.user_favorites(name, cursor).await.map_err(|_| ())?;
+        let data = api.user_favorites(name, cursor).await?;
         Ok(Project3::vec_new(data))
     }
 
-    pub async fn user_curating_studios(&self, name: &str, cursor: s2rs::Cursor) -> Result<Vec<Studio>, ()> {
+    pub async fn user_curating_studios(&self, name: &str, cursor: s2rs::Cursor) -> super::Result<Vec<Studio>> {
         let api = self.api.read().await;
-        let data = api.user_curating_studios(name, cursor).await.map_err(|_| ())?;
+        let data = api.user_curating_studios(name, cursor).await?;
         Ok(Studio::vec_new(data))
     }
 
-    pub async fn user_comments(&self, name: &str, cursor: s2rs::Cursor) -> Result<Vec<UserComment>, ()> {
+    pub async fn user_comments(&self, name: &str, cursor: s2rs::Cursor) -> super::Result<Vec<UserComment>> {
         let api = self.api.read().await;
-        let data = api.user_comments(name, cursor).await.map_err(|e| {
-            dbg!(e);
-        })?;
+        let data = api.user_comments(name, cursor).await.map_err(|e|
+            match e {
+                s2rs::api::GetUserCommentsError::Parsing => super::Error::BadResponse,
+                s2rs::api::GetUserCommentsError::This(error) => error.into()
+            }
+        )?;
         Ok(UserComment::vec_new(data))
     }
 }

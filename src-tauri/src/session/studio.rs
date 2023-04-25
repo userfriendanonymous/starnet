@@ -124,38 +124,43 @@ impl StudioProject {
 // endregion: structs
 
 impl Session {
-    pub async fn studio(&self, id: u64) -> Result<Studio, ()> {
-        let data = self.api.read().await.studio_meta(id).await.map_err(|_| ())?;
+    pub async fn studio(&self, id: u64) -> super::Result<Studio> {
+        let data = self.api.read().await.studio_meta(id).await?;
         Ok(Studio::new(data))
     }
 
-    pub async fn studio_thumbnail(&self, id: u64, width: u16, height: u16) -> Result<Vec<u8>, ()> {
-        let data = self.api.read().await.studio_thumbnail(id, width, height).await.map_err(|_| ())?;
+    pub async fn studio_thumbnail(&self, id: u64, width: u16, height: u16) -> super::Result<Vec<u8>> {
+        let data = self.api.read().await.studio_thumbnail(id, width, height).await?;
         Ok(data)
     }
 
-    pub async fn studio_projects(&self, id: u64, cursor: s2rs::Cursor) -> Result<Vec<StudioProject>, ()> {
-        let data = self.api.read().await.studio_projects(id, cursor).await.map_err(|_| ())?;
+    pub async fn studio_projects(&self, id: u64, cursor: s2rs::Cursor) -> super::Result<Vec<StudioProject>> {
+        let data = self.api.read().await.studio_projects(id, cursor).await?;
         Ok(StudioProject::vec_new(data))
     }
 
-    pub async fn studio_curators(&self, id: u64, cursor: s2rs::Cursor) -> Result<Vec<User>, ()> {
-        let data = self.api.read().await.studio_curators(id, cursor).await.map_err(|_| ())?;
+    pub async fn studio_curators(&self, id: u64, cursor: s2rs::Cursor) -> super::Result<Vec<User>> {
+        let data = self.api.read().await.studio_curators(id, cursor).await?;
         Ok(User::vec_new(data))
     }
 
-    pub async fn studio_managers(&self, id: u64, cursor: s2rs::Cursor) -> Result<Vec<User>, ()> {
-        let data = self.api.read().await.studio_managers(id, cursor).await.map_err(|_| ())?;
+    pub async fn studio_managers(&self, id: u64, cursor: s2rs::Cursor) -> super::Result<Vec<User>> {
+        let data = self.api.read().await.studio_managers(id, cursor).await?;
         Ok(User::vec_new(data))
     }
 
-    pub async fn studio_comments(&self, id: u64, cursor: s2rs::Cursor) -> Result<Vec<Comment>, ()> {
-        let data = self.api.read().await.studio_comments(id, cursor).await.map_err(|_| ())?;
+    pub async fn studio_comments(&self, id: u64, cursor: s2rs::Cursor) -> super::Result<Vec<Comment>> {
+        let data = self.api.read().await.studio_comments(id, cursor).await?;
         Ok(Comment::vec_new(data))
     }
 
-    pub async fn studio_activity(&self, id: u64, cursor: s2rs::Cursor) -> Result<Vec<StudioAction>, ()> {
-        let data = self.api.read().await.studio_activity(id, cursor).await.map_err(|_| ())?;
+    pub async fn studio_activity(&self, id: u64, cursor: s2rs::Cursor) -> super::Result<Vec<StudioAction>> {
+        let data = self.api.read().await.studio_activity(id, cursor).await.map_err(|e|
+            match e {
+                s2rs::api::GetStudioActivityError::Parsing(_) => super::Error::BadResponse,
+                s2rs::api::GetStudioActivityError::This(error) => error.into()
+            }
+        )?;
         Ok(StudioAction::vec_new(data))
     }
 }

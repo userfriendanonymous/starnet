@@ -195,18 +195,26 @@ impl ProjectRemix {
 // endregion: Entities
 
 impl Session {
-    pub async fn project(&self, id: u64) -> Result<Project, ()> {
-        let data = self.api.read().await.project_meta(id).await.map_err(|_| ())?;
+    pub async fn project(&self, id: u64) -> super::Result<Project> {
+        let data = self.api.read().await.project_meta(id).await?;
         Ok(Project::new(data))
     }
 
-    pub async fn project_thumbnail(&self, id: u64, width: u16, height: u16) -> Result<Vec<u8>, ()> {
-        let data = self.api.read().await.project_thumbnail(id, width, height).await.map_err(|_| ())?;
+    pub async fn project_thumbnail(&self, id: u64, width: u16, height: u16) -> super::Result<Vec<u8>> {
+        let data = self.api.read().await.project_thumbnail(id, width, height).await?;
         Ok(data)
     }
 
-    pub async fn project_comments(&self, id: u64, cursor: s2rs::Cursor) -> Result<Vec<Comment>, ()> {
-        let data = self.api.read().await.project_comments(id, cursor).await.map_err(|_| ())?;
+    pub async fn project_comments(&self, id: u64, cursor: s2rs::Cursor) -> super::Result<Vec<Comment>> {
+        let data = self.api.read().await.project_comments(id, cursor).await?;
         Ok(Comment::vec_new(data))
+    }
+
+    pub async fn love_project(&self, id: u64) -> super::Result<()> {
+        Ok(self.api.read().await.love_project(id).await?)
+    }
+
+    pub async fn favorite_project(&self, id: u64) -> super::Result<()> {
+        Ok(self.api.read().await.favorite_project(id).await?)
     }
 }
