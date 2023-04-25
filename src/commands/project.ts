@@ -1,11 +1,27 @@
 
-import { Project } from "@bind/Project";
-import { invoke } from "@tauri-apps/api";
+import Result, { resultifyPromise } from "@/result"
+import { Comment } from "@bind/Comment"
+import { Cursor } from "@bind/Cursor"
+import { Project } from "@bind/Project"
+import { invoke } from "@tauri-apps/api"
+import { Error } from '@bind/Error'
 
-export async function project(id: number): Promise<Project> {
-    return await invoke('project', {id})
+export function project(id: number) {
+    return resultifyPromise<Project, Error>( invoke('project', {id}) )
 }
 
-export async function projectThumbnail(id: number, width: number, height: number): Promise<number[]> {
-    return await invoke('project_thumbnail', {id, width, height})
+export function projectThumbnail(id: number, width: number, height: number) {
+    return resultifyPromise<number[], Error>( invoke('project_thumbnail', {id, width, height}) )
+}
+
+export function projectComments(id: number, cursor: Cursor) {
+    return resultifyPromise<Comment[], Error>( invoke('project_comments', {id, cursor}) )
+}
+
+export function loveProject(id: number) {
+    return resultifyPromise<null, Error>( invoke('love_project', {id}) )
+}
+
+export function favoriteProject(id: number) {
+    return resultifyPromise<null, Error>( invoke('favorite_project', {id}) )
 }

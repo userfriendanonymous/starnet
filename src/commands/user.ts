@@ -4,27 +4,32 @@ import { Cursor } from "@bind/Cursor";
 import { invoke } from "@tauri-apps/api";
 import { Project3 } from "@bind/Project3";
 import { UserComment } from '@bind/UserComment';
+import { resultifyPromise } from '@/result';
 
-export async function user(name: string): Promise<User> {
-    return await invoke('user', {name})
+export function user(name: string) {
+    return resultifyPromise<User, Error>( invoke('user', {name}) )
 }
 
-export async function userIcon(id: number, width: number, height: number): Promise<number[]> {
-    return await invoke('user_icon', {id, width, height})
+export function userIcon(id: number, width: number, height: number) {
+    return resultifyPromise<number[], Error>( invoke('user_icon', {id, width, height}) )
 }
 
-export async function userProjects(name: string, cursor: Cursor): Promise<Project3[]> {
-    return await invoke('user_projects', {name, cursor})
+export function userProjects(name: string, cursor: Cursor) {
+    return resultifyPromise<Project3[], Error>( invoke('user_projects', {name, cursor}) )
 }
 
-export async function userFavorites(name: string, cursor: Cursor): Promise<Project3[]> {
-    return await invoke('user_favorites', {name, cursor})
+export function userFavorites(name: string, cursor: Cursor) {
+    return resultifyPromise<Project3[], Error>( invoke('user_favorites', {name, cursor}) )
 }
 
-export async function userCuratingStudios(name: string, cursor: Cursor): Promise<Studio[]> {
-    return await invoke('user_curating_studios', {name, cursor})
+export function userCuratingStudios(name: string, cursor: Cursor) {
+    return resultifyPromise<Studio, Error>( invoke('user_curating_studios', {name, cursor}) )
 }
 
-export async function userComments(name: string, cursor: Cursor): Promise<UserComment[]> {
-    return await invoke('user_comments', {name, cursor})
+export function userComments(name: string, cursor: Cursor) {
+    return resultifyPromise<UserComment[], Error>( invoke('user_comments', {name, cursor}) )
+}
+
+export function sendUserComment(name: string, content: string, parentId?: number, toId?: number) {
+    return resultifyPromise<UserComment[], Error>( invoke('send_user_comment', {name, content, parentId, toId}) )
 }

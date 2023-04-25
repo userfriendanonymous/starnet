@@ -1,10 +1,12 @@
-
 import { useState } from "react"
 import { Open } from "@/app/tab-manager"
 import usePromiseState from "@/use-promise-state"
 import { studio } from "@/commands/studio"
 import StudioThumbnail from "@/components/studioThumbnail"
 import Projects from "./projects"
+import Comments from "./comments"
+import Curators from "./curators"
+import Activity from "./activity"
 
 type Tab = 'projects' | 'comments' | 'curators' | 'activity'
 
@@ -15,7 +17,20 @@ export default function Studio({open, id}: {
     const [state] = usePromiseState(() => studio(id))
     const [currentTab, setCurrentTab] = useState<Tab>('projects')
 
-    const [projectsChecked, setProjectsChecked] = useState(false)
+    const [projectsChecked, setProjectsChecked] = useState(true)
+    const [commentsChecked, setCommentsChecked] = useState(false)
+    const [curatorsChecked, setCuratorsChecked] = useState(false)
+    const [activityChecked, setActivityChecked] = useState(false)
+
+    const openProjects = () =>
+        {setProjectsChecked(true); setCurrentTab('projects')}
+    const openComments = () =>
+        {setCommentsChecked(true); setCurrentTab('comments')}
+    const openCurators = () =>
+        {setCuratorsChecked(true); setCurrentTab('curators')}
+    const openActivity = () =>
+        {setActivityChecked(true); setCurrentTab('activity')}
+
 
     return (
         <div>
@@ -43,18 +58,33 @@ export default function Studio({open, id}: {
 
                 <div className="flex flex-col gap-[1rem] flex-grow">
                     <div className="flex justify-between items-center">
-                        <button className="p-[1rem] rounded-full text-white bg-[#4a40ff]" onClick={() => {
-                            setProjectsChecked(true)
-                            setCurrentTab('projects')
-                        }}>Projects</button>
-                        <button className="p-[1rem] rounded-full text-white bg-[#4a40ff]" onClick={() => setCurrentTab('comments')}>Comments</button>
-                        <button className="p-[1rem] rounded-full text-white bg-[#4a40ff]" onClick={() => setCurrentTab('curators')}>Curators</button>
-                        <button className="p-[1rem] rounded-full text-white bg-[#4a40ff]" onClick={() => setCurrentTab('activity')}>Activity</button>
+                        <button className="p-[1rem] rounded-full text-white bg-[#4a40ff]" onClick={openProjects}>Projects</button>
+                        <button className="p-[1rem] rounded-full text-white bg-[#4a40ff]" onClick={openComments}>Comments</button>
+                        <button className="p-[1rem] rounded-full text-white bg-[#4a40ff]" onClick={openCurators}>Curators</button>
+                        <button className="p-[1rem] rounded-full text-white bg-[#4a40ff]" onClick={openActivity}>Activity</button>
                     </div>
 
                     {projectsChecked && (
                         <MaybeVisible is={currentTab == 'projects'}>
                             <Projects open={open} id={id}/>
+                        </MaybeVisible>
+                    )}
+
+                    {commentsChecked && (
+                        <MaybeVisible is={currentTab == 'comments'}>
+                            <Comments open={open} id={id}/>
+                        </MaybeVisible>
+                    )}
+
+                    {curatorsChecked && (
+                        <MaybeVisible is={currentTab == 'curators'}>
+                            <Curators open={open} id={id}/>
+                        </MaybeVisible>
+                    )}
+
+                    {activityChecked && (
+                        <MaybeVisible is={currentTab == 'activity'}>
+                            <Activity open={open} id={id}/>
                         </MaybeVisible>
                     )}
                 </div>

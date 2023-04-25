@@ -1,8 +1,12 @@
+import { login } from "@/commands/auth"
 import { useCallback, useRef } from "react"
 import { Open } from "../../app/tab-manager"
 import User from "../user"
 
 export default function Home({open}: {open: Open}) {
+    const nameRef = useRef<HTMLInputElement>(null!)
+    const passwordRef = useRef<HTMLInputElement>(null!)
+
     const userNameRef = useRef<HTMLInputElement>(null!)
     const projectIdRef = useRef<HTMLInputElement>(null!)
     const studioIdRef = useRef<HTMLInputElement>(null!)
@@ -22,9 +26,25 @@ export default function Home({open}: {open: Open}) {
         open({to: 'studio', id}, 'User - ' + id)
     }, [open])
 
+    const onLogin = useCallback(async () => {
+        let name = nameRef.current.value
+        let password = passwordRef.current.value
+        nameRef.current.value = ''
+        passwordRef.current.value = ''
+        await login(name, password)
+    }, [open])
+
     return (
         <div className="w-full flex flex-col items-center">
             <div className="text-[1.5rem] font-bold py-[2rem]">Home</div>
+            
+            <div className="flex flex-col items-center gap-[1rem] p-[1.5rem] bg-[#ffdecf] rounded-[1rem]">
+                <div className="text-[1.2rem]">Login?</div>
+                <input className="rounded-[0.2rem] p-[0.4rem]" placeholder="Username.." ref={nameRef}/>
+                <input className="rounded-[0.2rem] p-[0.4rem]" placeholder="Password.." ref={passwordRef}/>
+                <button className="rounded-[0.2rem] bg-[#cccbcb] px-[2rem] h-[2rem]" onClick={onLogin}>Authenticate me!</button>
+            </div>
+
             <div className="flex gap-[1rem]">
                 <div className="flex flex-col items-center gap-[1rem] p-[1.5rem] bg-[#ffdecf] rounded-[1rem]">
                     <div className="text-[1.2rem]">User:</div>

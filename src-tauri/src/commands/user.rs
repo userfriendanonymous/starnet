@@ -30,3 +30,8 @@ pub(crate) async fn user_curating_studios(state: State<'_, AppState>, name: &str
 pub(crate) async fn user_comments(state: State<'_, AppState>, name: &str, cursor: Cursor) -> Result<Vec<UserComment>> {
     state.session.user_comments(name, cursor.into()).await
 }
+
+#[tauri::command]
+pub(crate) async fn send_user_comment(state: State<'_, AppState>, name: &str, content: String, parent_id: Option<u64>, to_id: Option<u64>) -> Result<()> {
+    state.session.send_user_comment(name, content, parent_id, to_id).await
+}

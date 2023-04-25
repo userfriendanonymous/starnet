@@ -93,4 +93,11 @@ impl Session {
         )?;
         Ok(UserComment::vec_new(data))
     }
+
+    pub async fn send_user_comment(&self, name: &str, content: String, parent_id: Option<u64>, to_id: Option<u64>) -> super::Result<()> {
+        Ok(self.api.read().await.send_user_comment(name, content, parent_id, to_id).await.map_err(|e| {
+            dbg![ &e ];
+            e
+        })?)
+    }
 }

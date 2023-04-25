@@ -1,4 +1,5 @@
 import { useCallback, useEffect, useRef, useState } from "react"
+import Result from "./result"
 
 export type State<T, E> = {
     is: 'loading'
@@ -10,17 +11,17 @@ export type State<T, E> = {
     err: E
 }
 
-export default function usePromiseState<T, E>(fn: () => Promise<T>): [State<T, E>] {
+export default function usePromiseState<T, E>(fn: () => Promise<Result<T, E>>): [State<T, E>] {
     const isInit = useRef(false)
     const [state, setState] = useState<State<T, E>>({is: 'loading'})
     
     const run = useCallback(async () => {
-        try {
-            let data = await fn()
-            setState({ is: 'ok', data })
-        } catch (e) {
-            console.log(e)
-            setState({ is: 'err', err: e as E })
+        let result = await fn()
+        if (result.is == 'ok') {
+            setState({ is: 'ok', data: result.data })
+        } else {
+            console.log(result.err)
+            setState({ is: 'err', err: result.err })
         }
     }, [])
 

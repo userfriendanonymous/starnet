@@ -1,11 +1,11 @@
 import { invoke } from "@tauri-apps/api"
-import { useCallback, useEffect, useState } from "react"
+import { useCallback, useEffect, useRef, useState } from "react"
 import { Open } from "@/app/tab-manager"
 import { User as UserData } from '@bind/User'
 import { Project3 as Project3Data } from '@bind/Project3'
 import U8Img from '@/u8-img'
 import usePromiseState, { State } from "@/use-promise-state"
-import {user, userComments, userCuratingStudios, userFavorites, userIcon, userProjects} from "@/commands/user"
+import {sendUserComment, user, userComments, userCuratingStudios, userFavorites, userIcon, userProjects} from "@/commands/user"
 import { projectThumbnail } from "@/commands/project"
 import ProjectsCover from "@/components/projectsCover"
 import UserIcon from "@/components/userIcon"
@@ -22,7 +22,7 @@ export default function User({open, name}: Props) {
     const [projects] = usePromiseState(() => userProjects(name, {start: 0, end: 5}))
     const [favorites] = usePromiseState(() => userFavorites(name, {start: 0, end: 5}))
     const [curatingStudios] = usePromiseState(() => userCuratingStudios(name, {start: 0, end: 5}))
-
+    const commentRef = useRef<HTMLTextAreaElement>(null!)
     const [comments] = usePromiseState(() => userComments(name, {start: 0, end: 5}))
 
     return (
@@ -64,6 +64,16 @@ export default function User({open, name}: Props) {
                 <ProjectsCover title="Shared Projects" open={open} state={projects}/>
                 <ProjectsCover title="Favorited Projects" open={open} state={favorites}/>
                 <StudiosCover title="Curating Studios" open={open} state={curatingStudios}/>
+
+                <div className="flex flex-col gap-[0.4rem]">
+                    <div className="text-[1.5rem] font-bold">Send Comment</div>
+                    <textarea ref={commentRef}/>
+                    <button className="bg-[blue] p-[1rem] text-white" onClick={async () => {
+                        await sendUserComment(state.data.name, commentRef.current.value)
+                    }}>
+                        Send
+                    </button>
+                </div>
 
                 <Comments open={open} state={comments}/>
             </div>
