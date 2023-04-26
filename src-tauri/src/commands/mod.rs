@@ -1,9 +1,9 @@
 pub use user::*;
 pub use project::*;
 pub use studio::*;
-pub use auth::*;
+pub use me::*;
 
 pub mod user;
 pub mod project;
 pub mod studio;
-pub mod auth;
+pub mod me;

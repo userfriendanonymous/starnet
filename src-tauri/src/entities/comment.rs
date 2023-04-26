@@ -1,7 +1,6 @@
 use serde::Serialize;
 use ts_rs::TS;
 
-// region: entities
 #[derive(Debug, Serialize, TS)]
 #[ts(export)]
 #[serde( rename_all = "camelCase" )]
@@ -53,4 +52,3 @@ impl CommentAuthor {
         }
     }
 }
-// endregion: entities

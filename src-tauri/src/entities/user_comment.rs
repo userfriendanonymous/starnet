@@ -1,7 +1,6 @@
 use serde::Serialize;
 use ts_rs::TS;
 
-// region: entities
 #[derive(Debug, Serialize, TS)]
 #[ts(export)]
 #[serde( rename_all = "camelCase", tag = "is" )]
@@ -94,6 +93,4 @@ impl UserComment {
         data.into_iter().map(Self::new).collect()
     }
 }
-
-// endregion: entities
 

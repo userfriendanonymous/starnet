@@ -2443,9 +2443,9 @@ checksum = "f91339c0467de62360649f8d3e185ca8de4224ff281f66000de5eb2a77a79041"
 
 [[package]]
 name = "s2rs"
-version = "0.3.12"
+version = "0.4.13"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "8c53dc71195b3328e829150952b62657fb54e1878871562c3cc2af29160a8586"
+checksum = "402ac667c368e8eafd9035e4f4dedb219c05f3c802e75ed0ed5d3b5c2e1781ce"
 dependencies = [
  "async-trait",
  "basic-cookies",
