@@ -67,29 +67,6 @@ pub(crate) async fn unfollow_user(state: State<'_, AppState>, name: &str) -> Res
 }
 
 #[tauri::command]
-pub(crate) async fn set_profile_bio(state: State<'_, AppState>, content: String) -> Result<()> {
-    state.api.read().await.set_profile_info(&UserInfo {
-        bio: Some(content),
-        ..Default::default()
-    }).await?;
-    Ok(())
-}
-
-#[tauri::command]
-pub(crate) async fn set_profile_status(state: State<'_, AppState>, content: String) -> Result<()> {
-    state.api.read().await.set_profile_info(&UserInfo {
-        status: Some(content),
-        ..Default::default()
-    }).await?;
-    Ok(())
-}
-
-#[tauri::command]
-pub(crate) async fn toggle_profile_commenting(state: State<'_, AppState>) -> Result<()> {
-    Ok(state.api.read().await.toggle_profile_commenting().await?)
-}
-
-#[tauri::command]
 pub(crate) async fn user_featured(state: State<'_, AppState>, name: &str) -> Result<UserFeatured> {
     let data = state.api.read().await.user_featured(name).await?;
     Ok(UserFeatured::new(data))

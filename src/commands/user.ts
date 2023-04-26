@@ -28,4 +28,11 @@ export const userProjectComments = (name: string, id: number, cursor: Cursor) =>
     command<Comment[], Error>('user_project_comments', {name, id, cursor})
 
 export const sendUserComment = (name: string, content: string, parentId?: number, toId?: number) =>
-    command<UserComment[], Error>('send_user_comment', {name, content, parentId, toId})
+    command<null, Error>('send_user_comment', {name, content, parentId, toId})
+
+export const followUser = (name: string) =>
+    command<null, Error>('follow_user', {name})
+
+export const unfollowUser = (name: string) =>
+    command<null, Error>('unfollow_user', {name})
+    

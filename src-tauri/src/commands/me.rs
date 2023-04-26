@@ -1,6 +1,6 @@
 use tauri::State;
 use crate::{AppState, entities::{Error, Result, FrontPage, News, Project2}, cursor::Cursor};
-use s2rs::api::Tokens;
+use s2rs::api::{Tokens, UserInfo};
 
 #[tauri::command]
 pub(crate) async fn login(state: State<'_, AppState>, name: &str, password: &str) -> Result<()> {
@@ -59,4 +59,27 @@ pub(crate) async fn projects_shared_by_following(state: State<'_, AppState>, cur
 pub(crate) async fn viewed_projects(state: State<'_, AppState>, cursor: Cursor) -> Result<Vec<Project2>> {
     let data = state.api.read().await.viewed_projects(cursor).await?;
     Ok(Project2::vec_new(data))
+}
+
+#[tauri::command]
+pub(crate) async fn set_profile_bio(state: State<'_, AppState>, content: String) -> Result<()> {
+    state.api.read().await.set_profile_info(&UserInfo {
+        bio: Some(content),
+        ..Default::default()
+    }).await?;
+    Ok(())
+}
+
+#[tauri::command]
+pub(crate) async fn set_profile_status(state: State<'_, AppState>, content: String) -> Result<()> {
+    state.api.read().await.set_profile_info(&UserInfo {
+        status: Some(content),
+        ..Default::default()
+    }).await?;
+    Ok(())
+}
+
+#[tauri::command]
+pub(crate) async fn toggle_profile_commenting(state: State<'_, AppState>) -> Result<()> {
+    Ok(state.api.read().await.toggle_profile_commenting().await?)
 }

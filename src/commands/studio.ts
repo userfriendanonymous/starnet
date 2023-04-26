@@ -28,3 +28,44 @@ export const studioManagers = (id: number, cursor: Cursor) =>
 export const studioActivity = (id: number, cursor: Cursor) =>
     command<StudioAction[], Error>('studio_activity', {id, cursor})
 
+export const followStudio = (id: number) =>
+    command<null, Error>('follow_studio', {id})
+
+export const unfollowStudio = (id: number) =>
+    command<null, Error>('unfollow_studio', {id})
+
+export const addStudioProject = (id: number) =>
+    command<null, Error>('add_studio_project', {id})
+
+export const removeStudioProject = (id: number, projectId: number) =>
+    command<null, Error>('remove_studio_project', {id, projectId})
+
+export const sendStudioComment = (id: number, content: string, parentId?: number, toId?: number) =>
+    command<null, Error>('send_studio_comment', {id, content, parentId, toId})
+
+export const inviteStudioCurator = (id: number, name: string) =>
+    command<null, Error>('invite_studio_curator', {id, name})
+
+export const removeStudioCurator = (id: number, name: string) =>
+    command<null, Error>('remove_studio_curator', {id, name})
+
+export const setStudioTitle = (id: number, content: string) =>
+    command<null, Error>('set_studio_title', {id, content})
+
+export const setStudioDescription = (id: number, content: string) =>
+    command<null, Error>('set_studio_description', {id, content})
+
+export const toggleStudioCommenting = (id: number) =>
+    command<null, Error>('toggle_studio_commenting', {id})
+
+export const acceptStudioInvite = (id: number) =>
+    command<null, Error>('accept_studio_invite', {id})
+
+export const openStudio = (id: number) =>
+    command<null, Error>('open_studio', {id})
+
+export const closeStudio = (id: number) =>
+    command<null, Error>('close_studio', {id})
+
+export const promoteStudioCurator = (id: number, name: string) =>
+    command<null, Error>('promote_studio_curator', {id, name})
