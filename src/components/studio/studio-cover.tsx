@@ -1,14 +1,14 @@
 import { Open } from '@/app/tab-manager'
 import { projectThumbnail } from '@/commands/project'
 import { studioThumbnail } from '@/commands/studio'
-import U8Img from '@/u8-img'
+import U8Img from '@/components/u8-img'
 import usePromiseState from '@/use-promise-state'
 import { Studio } from '@bind/Studio'
 import { Studio2 } from '@bind/Studio2'
-import StudioThumbnail from './studioThumbnail'
+import StudioThumbnail from './studio-thumbnail'
 
 export interface Data {
-    id: number
+    id: bigint
     title: string
 }
 

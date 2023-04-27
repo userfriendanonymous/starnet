@@ -1,6 +1,6 @@
 import { ReactNode, useCallback, useRef, useState } from "react"
 import { useImmer } from "use-immer"
-import { Route } from "../router"
+import { Route } from "../tab-router"
 
 export type Tab = {
     id: number
@@ -12,7 +12,7 @@ export type Open = (route: Route, title: string) => void
 export type Set = (id: number) => void
 export type Close = (id: number) => void
 export type Reload = (id: number) => void
-export type Manager = {
+export type TabManager = {
     open: Open
     close: Close
     set: Set
@@ -21,7 +21,7 @@ export type Manager = {
     reload: Reload
 }
 
-export default function useTabManager(): Manager {
+export default function useTabManager(): TabManager {
     const [items, setItems] = useImmer<{$: Tab[]}>({$: []})
     const tabsHistory = useRef([])
     const [currentId, setCurrentId] = useState<undefined | number>(undefined)

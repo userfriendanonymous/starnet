@@ -1,3 +1,4 @@
+import { UserFeatured } from '@bind/UserFeatured';
 import { Studio2 } from '@bind/Studio2'
 import { User } from "@bind/User"
 import { Cursor } from "@bind/Cursor"
@@ -35,4 +36,7 @@ export const followUser = (name: string) =>
 
 export const unfollowUser = (name: string) =>
     command<null, Error>('unfollow_user', {name})
+    
+export const userFeatured = (name: string) =>
+    command<UserFeatured, Error>('user_featured', {name})
     

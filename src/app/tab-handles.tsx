@@ -1,6 +1,6 @@
-import Router from "../router"
+import Router from "../tab-router"
 import Tab from "./tabs"
-import {Manager as TabManager} from "./tab-manager"
+import {TabManager} from "./tab-manager"
 
 interface Props {
     tabManager: TabManager
@@ -8,30 +8,33 @@ interface Props {
 
 export default function TabHandles({tabManager}: Props) {
     return (
-        <div className="flex h-[2rem] gap-[0.2rem]">
-            {tabManager.items.map(({id, title}) => (
-                <Handle title={title} close={() => tabManager.close(id)} key={id} set={() => tabManager.set(id)}/>
-            ))}
+        <div className="overflow-x-hidden relative flex-grow h-[100%]">
+            <div className="flex items-center absolute left-0 right-0 bottom-0 top-0">
+                {tabManager.items.map(({id, title}) => (
+                    <Handle isOpen={id == tabManager.currentId} title={title} close={() => tabManager.close(id)} key={id} set={() => tabManager.set(id)}/>
+                ))}
+            </div>
         </div>
     )
 }
 
-function Handle({close, title, set}: {
+function Handle({close, title, set, isOpen}: {
     close: () => void
     set: () => void
+    isOpen: boolean
     title: string
     
 }) {
     return (
-        <button className="bg-[yellow] p-[0.2rem] flex gap-[0.1rem]" onClick={() => {
+        <div className={`${isOpen ? 'bg-[#3b3c4b]' : 'hover:bg-[#353440]'} text-[#ffffffd4] transition-all h-[100%] overflow-clip cursor-pointer items-center flex pl-[0.7rem] pr-[0.3rem] gap-[0.3rem]`} onClick={() => {
             set()
         }}>
-            <div>
+            <div className="text-ellipsis whitespace-nowrap overflow-hidden text-[0.9rem]">
                 {title}
             </div>
-            <button onClick={(e) => {e.stopPropagation(); close()}} className="w-[1.5rem] h-[1.5rem] bg-[#ffbf00] rounded-full flex items-center justify-center">
+            <button onClick={(e) => {e.stopPropagation(); close()}} className="w-[1.4rem] h-[1.4rem] font-bold flex items-center justify-center hover:bg-[#ffffff32] active:bg-[#ffffff4b]">
                 x
             </button>
-        </button>
+        </div>
     )
 }

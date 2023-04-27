@@ -1,3 +1,4 @@
+import { T } from "@tauri-apps/api/event-2a9960e7"
 import { useCallback, useEffect, useRef, useState } from "react"
 import Result from "./result"
 
@@ -9,6 +10,17 @@ export type State<T, E> = {
 } | {
     is: 'err'
     err: E
+}
+
+export function alteredState<T, E, R>(state: State<T, E>, fn: (data: T) => R): State<R, E> {
+    if (state.is == 'ok') {
+        return {
+            is: 'ok',
+            data: fn(state.data)
+        }
+    } else {
+        return state
+    }
 }
 
 export default function usePromiseState<T, E>(fn: () => Promise<Result<T, E>>): [State<T, E>] {

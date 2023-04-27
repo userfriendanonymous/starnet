@@ -1,10 +1,12 @@
 import { Open } from "@/app/tab-manager"
 import { State } from "@/use-promise-state"
-import StudioCover, { Data } from "./studioCover"
+import { Project3 } from "@bind/Project3"
+import ProjectCover, { ProjectCoverData } from "./project-cover"
 
-export default function StudiosCover({state, open, title}: {
-    state: State<Data[], any>
-    open: Open
+
+export default function ProjectsRow({state, openTab, title}: {
+    state: State<ProjectCoverData[], any>
+    openTab: Open
     title: string
 }) {
     return (
@@ -12,7 +14,7 @@ export default function StudiosCover({state, open, title}: {
             <div className="font-bold text-[1.3rem]">{title}</div>
             <div className="flex gap-[0.4rem] overflow-x-scroll">{
                 state.is == 'ok' ?
-                state.data.map(data => <StudioCover open={open} data={data}/>)
+                state.data.map(data => <ProjectCover open={openTab} data={data}/>)
 
                 : state.is == 'loading' ?
                 <div>LOADING...</div>

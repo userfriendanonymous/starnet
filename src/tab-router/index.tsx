@@ -17,14 +17,14 @@ export type Route = {
     id: number
 }
 
-export default function Router({route, tabManager}: {
+export default function TabRouter({route, tabManager}: {
     route: Route
     tabManager: TabManager
 }) {
     let r
     switch (route.to) {
         case 'home':
-            r = <Home open={tabManager.open}/>
+            r = <Home openTab={tabManager.open}/>
             break
 
         case 'user':
@@ -36,7 +36,7 @@ export default function Router({route, tabManager}: {
             break
 
         case 'studio':
-            r = <Studio id={route.id}/>
+            r = <Studio open={tabManager.open} id={route.id}/>
             break
     }
 

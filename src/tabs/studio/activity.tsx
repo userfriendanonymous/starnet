@@ -1,5 +1,6 @@
 import { Open } from "@/app/tab-manager"
 import { studioActivity } from "@/commands/studio"
+import StateLoader from "@/components/state-loader"
 import usePromiseState from "@/use-promise-state"
 import { StudioAction } from "@bind/StudioAction"
 import { ReactNode } from "react"
@@ -10,20 +11,15 @@ export default function Activity({id, open}: {
 }) {
     const [state] = usePromiseState(() => studioActivity(id, {start: 0, end: null}))
     return (
-        <div>{
-            state.is == 'ok' ?
-            <div>{
-                state.data.map(data => (
-                    <Action data={data}/>
-                ))
-            }</div>
-            
-            : state.is == 'loading' ?
-            <div>Loading..</div>
-
-            :
-            <div>Error</div>
-        }</div>
+        <div>
+            <StateLoader state={state}>{data => 
+                <div>{
+                    data.map(data => (
+                        <Action data={data}/>
+                    ))
+                }</div>
+            }</StateLoader>
+        </div>
     )
 }
 

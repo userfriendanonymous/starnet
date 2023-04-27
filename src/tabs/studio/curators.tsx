@@ -1,7 +1,8 @@
 import { Open } from "@/app/tab-manager"
 import { studioCurators, studioManagers } from "@/commands/studio"
-import UserIcon from "@/components/userIcon"
-import usePromiseState from "@/use-promise-state"
+import StateLoader from "@/components/state-loader"
+import UserIcon from "@/components/user/user-icon"
+import usePromiseState, { State } from "@/use-promise-state"
 import { User } from "@bind/User"
 
 export default function Curators({id, open}: {
@@ -10,42 +11,30 @@ export default function Curators({id, open}: {
 }) {
     const [curators] = usePromiseState(() => studioCurators(id, {start: 0, end: 40}))
     const [managers] = usePromiseState(() => studioManagers(id, {start: 0, end: 40}))
+
     return (
         <div className="flex flex-col gap-[2rem] bg-[#ededed] p-[1rem] rounded-[1rem]">
-            <div className="flex flex-col gap-[1rem]">
-                <div className="font-bold text-[1.5rem]">Managers:</div>
-                <div>{
-                    managers.is == 'ok' ?
+            <Section state={managers} title='Managers'/>
+            <Section state={curators} title='Curators'/>
+        </div>
+    )
+}
+
+function Section<E>({title, state}: {
+    state: State<User[], E>
+    title: string
+}) {
+    return (
+        <div className="flex flex-col gap-[1rem]">
+            <div className="font-bold text-[1.5rem]">{title}</div>
+            <div>
+                <StateLoader state={state}>{data =>
                     <div className="grid grid-cols-2 gap-[0.5rem]">{
-                        managers.data.map(data => (
+                        data.map(data => (
                             <Curator data={data}/>
                         ))
                     }</div>
-
-                    : managers.is == 'loading' ?
-                    <div>Loading</div>
-
-                    :
-                    <div>Error</div>
-                }</div>
-            </div>
-            
-            <div className="flex flex-col gap-[1rem]">
-                <div className="font-bold text-[1.5rem]">Curators:</div>
-                <div>{
-                    curators.is == 'ok' ?
-                    <div className="grid grid-cols-2 gap-[0.5rem]">{
-                        curators.data.map(data => (
-                            <Curator data={data}/>
-                        ))
-                    }</div>
-
-                    : curators.is == 'loading' ?
-                    <div>Loading</div>
-
-                    :
-                    <div>Error</div>
-                }</div>
+                }</StateLoader>
             </div>
         </div>
     )

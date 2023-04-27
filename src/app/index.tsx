@@ -4,30 +4,24 @@ import TabHandles from "./tab-handles"
 import useTabManager from "./tab-manager"
 import Tabs from "./tabs"
 import Home from "../tabs/home"
-import { Route } from "../router"
+import { Route } from "../tab-router"
 import ControlPanel from "./control-panel"
 import TopPanel from "./top-panel"
+import usePopupManager from "./popup-manager"
+import Popup from "./popup"
 
 export default function App() {
     const tabManager = useTabManager()
-
-    const openAnyTab = useCallback(() => {
-        tabManager.open({to: 'home'}, 'Cool home')
-    }, [tabManager.open])
-
-    const openTab = useCallback((route: Route, title: string) => {
-        tabManager.open(route, title)
-    }, [tabManager.open])
-
-    const closeTab = useCallback((id: number) => {
-        tabManager.close(id)
-    }, [tabManager.close])
+    const popupManager = usePopupManager()
 
     return (
-        <div>
-            <TopPanel tabManager={tabManager}/>
-            <ControlPanel tabManager={tabManager}/>
-            <Tabs tabManager={tabManager}/>
-        </div>
+        <main className="h-[100vh] relative">
+            <Popup popupManager={popupManager} tabManager={tabManager}/>
+            <div className="flex flex-col w-[100%] h-[100%] absolute">
+                <TopPanel tabManager={tabManager}/>
+                <ControlPanel tabManager={tabManager} popupManager={popupManager}/>
+                <Tabs tabManager={tabManager}/>
+            </div>
+        </main>
     )
 }

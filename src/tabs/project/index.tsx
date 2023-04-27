@@ -3,7 +3,7 @@ import { Open } from "@/app/tab-manager"
 import usePromiseState from "@/use-promise-state"
 import {favoriteProject, loveProject, project, projectThumbnail} from "@/commands/project"
 import { sendUserComment, userIcon, userProjectComments } from "@/commands/user"
-import UserIcon from "@/components/userIcon"
+import UserIcon from "@/components/user/user-icon"
 import CommentsDisplay from "@/components/comments"
 
 export default function Project({open, id}: {
