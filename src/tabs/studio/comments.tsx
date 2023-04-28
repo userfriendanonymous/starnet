@@ -2,7 +2,7 @@ import { Open } from "@/app/tab-manager"
 import { studioComments } from "@/commands/studio"
 import CommentsDisplay from '@/components/comments'
 import StateLoader from "@/components/state-loader"
-import usePromiseState from "@/use-promise-state"
+import usePromiseState from "@/promise-state"
 
 export default function Comments({id}: {
     id: number

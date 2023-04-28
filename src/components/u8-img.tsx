@@ -1,4 +1,4 @@
-import { ComponentPropsWithoutRef, memo } from "react";
+import { ComponentPropsWithoutRef, memo, useMemo } from "react";
 
 interface Props {
     src: Uint8Array | number[],
@@ -7,6 +7,7 @@ interface Props {
 
 const U8Img = memo(({inner, src}: Props) => {
     return (
+        // <></>
         <img {...inner} src={URL.createObjectURL(
             new Blob([Uint8Array.from(src).buffer])
         )}/>

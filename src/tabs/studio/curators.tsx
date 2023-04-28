@@ -2,7 +2,7 @@ import { Open } from "@/app/tab-manager"
 import { studioCurators, studioManagers } from "@/commands/studio"
 import StateLoader from "@/components/state-loader"
 import UserIcon from "@/components/user/user-icon"
-import usePromiseState, { State } from "@/use-promise-state"
+import usePromiseState, { State } from "@/promise-state"
 import { User } from "@bind/User"
 
 export default function Curators({id, open}: {
@@ -13,7 +13,7 @@ export default function Curators({id, open}: {
     const [managers] = usePromiseState(() => studioManagers(id, {start: 0, end: 40}))
 
     return (
-        <div className="flex flex-col gap-[2rem] bg-[#ededed] p-[1rem] rounded-[1rem]">
+        <div className="flex flex-col gap-[2rem] bg-light-weak p-[1rem] rounded-[1rem]">
             <Section state={managers} title='Managers'/>
             <Section state={curators} title='Curators'/>
         </div>
@@ -44,7 +44,7 @@ function Curator({data}: {
     data: User
 }) {
     return (
-        <div className="flex items-center gap-[0.5rem] rounded-[0.6rem] bg-[#ffffff] p-[0.6rem]">
+        <div className="flex items-center gap-[0.5rem] rounded-[0.6rem] bg-light-main p-[0.6rem]">
             <div className="w-[4rem] h-[4rem]">
                 <UserIcon id={Number(data.id)} size={100}/>
             </div>

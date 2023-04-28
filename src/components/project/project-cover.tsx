@@ -1,7 +1,7 @@
 import { Open } from '@/app/tab-manager'
 import { projectThumbnail } from '@/commands/project'
 import U8Img from '@/components/u8-img'
-import usePromiseState from '@/use-promise-state'
+import usePromiseState from '@/promise-state'
 import { Project3 } from '@bind/Project3'
 
 export interface ProjectCoverData {
@@ -18,7 +18,7 @@ export default function ProjectCover({
     const [thumbnail] = usePromiseState(() => projectThumbnail(Number(data.id), 200, 200))
 
     return (
-        <div className='w-[10rem] flex-shrink-0 h-[11rem] cursor-pointer' onClick={() => {
+        <div className='w-[10rem] flex-shrink-0 h-[11rem] cursor-pointer p-[1px]' onClick={() => {
             open({to: 'project', id: Number(data.id)}, 'Project')
         }}>
             <div className='w-[100%] h-[7rem]'>{
@@ -39,7 +39,7 @@ export default function ProjectCover({
                 {data.title}
             </div>
 
-            <div className='text-[1rem] text-[#8f8f8f]'>
+            <div className='text-[1rem] text-light-negative-weak'>
                 {String(data.id)}
             </div>
         </div>

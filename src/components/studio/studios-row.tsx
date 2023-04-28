@@ -1,5 +1,5 @@
 import { Open } from "@/app/tab-manager"
-import { State } from "@/use-promise-state"
+import { State } from "@/promise-state"
 import StateLoader from "../state-loader"
 import StudioCover, { Data } from "./studio-cover"
 

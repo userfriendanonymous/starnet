@@ -1,7 +1,7 @@
 import { useRef } from "react"
 import { Open } from "@/app/tab-manager"
-import usePromiseState, { State } from "@/use-promise-state"
-import {sendUserComment, user, userComments, userCuratingStudios, userFavorites, userProjects} from "@/commands/user"
+import usePromiseState, { State } from "@/promise-state"
+import {followUser, sendUserComment, user, userComments, userCuratingStudios, userFavorites, userProjects} from "@/commands/user"
 import UserIcon from "@/components/user/user-icon"
 import Comments from "./comments"
 import { Data as StudioCoverData } from "@/components/studio/studio-cover"
@@ -9,6 +9,7 @@ import Featured from "./featured"
 import StateLoader from "@/components/state-loader"
 import ProjectsRow from "@/components/project/projects-row"
 import StudiosRow from "@/components/studio/studios-row"
+import ActionLoader from "@/components/action-loader"
 
 interface Props {
     name: string
@@ -25,7 +26,7 @@ export default function User({open, name}: Props) {
 
     return (
         <div className="p-[1rem] flex flex-col gap-[1rem]">
-            <div>
+            <div className="flex justify-between">
                 <StateLoader state={state}>{data => <div className="flex gap-[1rem]">
                     <div className="w-[4rem] h-[4rem]">
                         <UserIcon id={Number(data.id)} size={100}/>
@@ -39,23 +40,35 @@ export default function User({open, name}: Props) {
 
                         <div className="flex gap-[1rem]">
                             <div>{data.history.joined}</div>
-                            <div className="text-[#969696]">{String(data.id)}</div>
+                            <div>{String(data.id)}</div>
                         </div>
                         <div>{data.country}</div>
                     </div>
                 </div>}</StateLoader>
+
+                <div className="flex flex-col gap-[0.5rem]">
+                    <ActionLoader fn={() => followUser(name)} ok={() => {}} err={() => {}}>{(run, isLoading) => 
+                        <div onClick={run} className="bg-light-primary w-[7.5rem] h-[2.5rem] flex items-center rounded-[0.5rem] justify-center cursor-pointer font-bold">
+                            {isLoading ? 'Loading' : 'Follow'}
+                        </div>
+                    }</ActionLoader>
+                    
+                    <div className="border-light-danger border-[2px] h-[2.5rem] flex items-center rounded-[0.5rem] px-[2rem] cursor-pointer font-bold">
+                        Report
+                    </div>
+                </div>
             </div>
 
             <div className="flex gap-[1rem]">
                 <div className="flex flex-col gap-[0.7rem]">
-                    <div className="p-[1rem] flex flex-col gap-[0.5rem] bg-[#f5f5f5] rounded-[1rem]">
+                    <div className="p-[1rem] flex flex-col gap-[0.5rem] bg-light-weak rounded-[1rem]">
                         <div className="font-bold text-[1.3rem]">About Me</div>
                         <StateLoader state={state}>{data => 
                             <div>{data.bio}</div>
                         }</StateLoader>
                     </div>
 
-                    <div className="p-[1rem] flex flex-col gap-[0.5rem] bg-[#f5f5f5] rounded-[1rem]">
+                    <div className="p-[1rem] flex flex-col gap-[0.5rem] bg-light-weak rounded-[1rem]">
                         <div className="font-bold text-[1.3rem]">What I'm Working On</div>
                         <StateLoader state={state}>{data => 
                             <div>{data.status}</div>
@@ -74,7 +87,7 @@ export default function User({open, name}: Props) {
                 <div className="text-[1.5rem] font-bold">Send Comment</div>
                 <textarea ref={commentRef}/>
                 <StateLoader state={state}>{data =>
-                    <button className="bg-[blue] p-[1rem] text-white" onClick={async () => {
+                    <button className="bg-light-active p-[1rem]" onClick={async () => {
                         await sendUserComment(data.name, commentRef.current.value)
                     }}>Send</button>
                 }</StateLoader>

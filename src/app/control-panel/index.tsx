@@ -1,13 +1,12 @@
-import useTheme from "@/theme"
 import { useCallback } from "react"
 import { PopupManager } from "../popup-manager"
 import { TabManager, Reload as ReloadTab } from "../tab-manager"
+import Button from "./button"
 
 export default function ControlPanel({tabManager, popupManager}: {
     tabManager: TabManager
     popupManager: PopupManager
 }) {
-    const tm = useTheme(({value}) => value)
 
     const onReloadTab = useCallback(() => {
         if (tabManager.currentId) {
@@ -16,18 +15,29 @@ export default function ControlPanel({tabManager, popupManager}: {
     }, [tabManager.reload, tabManager.currentId])
 
     return (
-        <div className={`bg-[${tm.dark.background}] h-[2.5rem] flex items-center gap-[2rem] text-[#ffffffd0] px-[0.5rem]`}>
-            <button
-                className="cursor-pointer transition-all px-[1rem] h-[100%] hover:bg-[#ffffff26]"
-                onClick={onReloadTab}
-            >
-                Reload
-            </button>
+        <div className={`h-[2.5rem] bg-dark-weak flex items-center gap-[2rem] text-dark-negative-main px-[0.7rem] justify-between`}>
+            <div className="flex items-center">
+                <Button onClick={onReloadTab}>
+                    R
+                </Button>
+            </div>
 
-            <div onClick={() => {
-                popupManager.open({to: 'user'})
-            }}>
-                User
+            <div className="flex items-center gap-[0.4rem]">
+                <Button onClick={() => popupManager.open({to: 'user'})}>
+                    P
+                </Button>
+
+                <Button onClick={() => popupManager.open({to: 'user'})}>
+                    U
+                </Button>
+
+                <Button onClick={() => popupManager.open({to: 'user'})}>
+                    S
+                </Button>
+                
+                <div className="ml-[3rem] flex items-center gap-[0.3rem]">
+                    <div className="text-[0.9rem]">UserFriend-</div>
+                </div>
             </div>
         </div>
     )

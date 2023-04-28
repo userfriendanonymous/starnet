@@ -1,7 +1,7 @@
 import { userFeatured } from "@/commands/user"
 import ProjectThumbnail from "@/components/project/project-thumbnail"
 import StateLoader from "@/components/state-loader"
-import usePromiseState from "@/use-promise-state"
+import usePromiseState from "@/promise-state"
 import { FeaturedLabel } from "@bind/FeaturedLabel"
 
 function labelToString(label: FeaturedLabel) {
@@ -21,7 +21,7 @@ export default function Featured({name}: {
     const [state] = usePromiseState(() => userFeatured(name))
 
     return (
-        <div className="w-[20rem] flex-shrink-0 p-[1rem] rounded-[1rem] bg-[#f7f6f6]">
+        <div className="w-[20rem] flex-shrink-0 p-[1rem] rounded-[1rem] bg-light-weak">
             <StateLoader state={state}>{data => 
                 <div className="flex flex-col gap-[0.7rem]">
                     <div className="font-bold text-[1.3rem]">{labelToString(data.label)}</div>

@@ -1,16 +1,10 @@
-import { frontPage, login, news } from "@/commands/me"
-import ProjectsRow from "@/components/project/projects-row"
-import StudiosRow from "@/components/studio/studios-row"
-import useTheme from "@/theme"
-import usePromiseState, { alteredState } from "@/use-promise-state"
+import { login } from "@/commands/me"
 import { useCallback, useRef } from "react"
 import { Open } from "../../app/tab-manager"
-import User from "../user"
-import FrontPage from "./frontPage"
+import FrontPage from "./front-page"
 import News from "./news"
 
 export default function Home({openTab}: {openTab: Open}) {
-    const tm = useTheme(({value}) => value)
     const nameRef = useRef<HTMLInputElement>(null!)
     const passwordRef = useRef<HTMLInputElement>(null!)
 
@@ -42,13 +36,13 @@ export default function Home({openTab}: {openTab: Open}) {
     }, [open])
 
     return (
-        <div className={`bg-[${tm.light.background}]`}>
-            <div className={`flex justify-center items-center h-[3rem] bg-[${tm.light.primary}] text-[${tm.light.background}] gap-[0.8rem]`}>
+        <div>
+            <div className={`flex justify-center items-center h-[3rem] bg-light-main text-light-negative-main gap-[0.8rem]`}>
                 <div className="font-bold">SSN</div>
 
-                <div className={`px-[1rem] py-[0.2rem] bg-[${tm.light.background}] rounded-[0.2rem]`}>
-                    <input className="text-[#9b98b9]" placeholder="Search"></input>
-                    <button className="cursor-pointer text-[black]">Go!</button>
+                <div className={`px-[1rem] py-[0.2rem] bg-[] rounded-[0.2rem]`}>
+                    <input className="text-light-negative-weak" placeholder="Search"></input>
+                    <button className="cursor-pointer">Go!</button>
                 </div>
             </div>
 

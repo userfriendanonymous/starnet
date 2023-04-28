@@ -1,4 +1,4 @@
-import { State } from "@/use-promise-state"
+import { State } from "@/promise-state"
 import { ReactNode } from "react"
 
 export default function StateLoader<T, E>({state, children}: {

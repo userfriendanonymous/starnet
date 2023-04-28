@@ -1,5 +1,5 @@
 import { Open } from "@/app/tab-manager";
-import { State } from "@/use-promise-state";
+import { State } from "@/promise-state";
 import { UserComment } from '@bind/UserComment'
 import { UserCommentContent } from "@bind/UserCommentContent";
 import { UserReply } from "@bind/UserReply";
@@ -10,7 +10,7 @@ export default function Comments({state, open}: {
     open: Open
 }) {
     return (
-        <div className="bg-[#f0f0f0] flex flex-col rounded-[1rem] p-[1rem] gap-[1rem]">
+        <div className="bg-light-weak flex flex-col rounded-[1rem] p-[1rem] gap-[1rem]">
             <div className="font-bold text-[1.3rem]">Comments</div>
             
             <div className="flex flex-col gap-[1rem]">{
@@ -32,10 +32,10 @@ function Reply({data}: {
     data: UserReply
 }) {
     return (
-        <div className="bg-[white] rounded-[1rem] p-[0.4rem]">
+        <div className="bg-light-main rounded-[1rem] p-[0.4rem]">
             <div className="flex gap-[0.3rem] items-center">
                 <div className="text-[1.2rem] font-bold">{data.authorName}</div>
-                <div className="text-[#7a7a7a]">{data.createdAt}</div>
+                <div className="text-light-negative-weak">{data.createdAt}</div>
             </div>
 
             <CommentContent data={data.content}/>

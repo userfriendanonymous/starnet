@@ -2,7 +2,7 @@ import { Open } from "@/app/tab-manager"
 import { frontPage, projectsLovedByFollowing, projectsSharedByFollowing, viewedProjects } from "@/commands/me"
 import ProjectsRow from "@/components/project/projects-row"
 import StudiosRow from "@/components/studio/studios-row"
-import usePromiseState, { alteredState } from "@/use-promise-state"
+import usePromiseState, { alteredState } from "@/promise-state"
 
 export default function FrontPage({openTab}: {
     openTab: Open

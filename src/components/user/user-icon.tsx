@@ -1,6 +1,6 @@
 import { userIcon } from "@/commands/user"
 import U8Img from "@/components/u8-img"
-import usePromiseState from "@/use-promise-state"
+import usePromiseState from "@/promise-state"
 
 
 

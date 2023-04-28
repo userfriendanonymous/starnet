@@ -26,13 +26,13 @@ function Handle({close, title, set, isOpen}: {
     
 }) {
     return (
-        <div className={`${isOpen ? 'bg-[#3b3c4b]' : 'hover:bg-[#353440]'} text-[#ffffffd4] transition-all h-[100%] overflow-clip cursor-pointer items-center flex pl-[0.7rem] pr-[0.3rem] gap-[0.3rem]`} onClick={() => {
+        <div className={`${isOpen ? 'bg-dark-weak' : 'hover:bg-dark-slight'} text-dark-negative-main transition-all h-[100%] overflow-clip cursor-pointer items-center flex pl-[0.7rem] pr-[0.3rem] gap-[0.3rem]`} onClick={() => {
             set()
         }}>
             <div className="text-ellipsis whitespace-nowrap overflow-hidden text-[0.9rem]">
                 {title}
             </div>
-            <button onClick={(e) => {e.stopPropagation(); close()}} className="w-[1.4rem] h-[1.4rem] font-bold flex items-center justify-center hover:bg-[#ffffff32] active:bg-[#ffffff4b]">
+            <button onClick={(e) => {e.stopPropagation(); close()}} className="w-[1.4rem] h-[1.4rem] font-bold flex items-center justify-center hover:bg-dark-active active:bg-dark-fired">
                 x
             </button>
         </div>

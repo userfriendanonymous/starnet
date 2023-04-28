@@ -1,7 +1,7 @@
 import { Open } from "@/app/tab-manager"
 import { studioActivity } from "@/commands/studio"
 import StateLoader from "@/components/state-loader"
-import usePromiseState from "@/use-promise-state"
+import usePromiseState from "@/promise-state"
 import { StudioAction } from "@bind/StudioAction"
 import { ReactNode } from "react"
 

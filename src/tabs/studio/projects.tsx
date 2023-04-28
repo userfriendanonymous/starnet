@@ -2,7 +2,7 @@ import { Open } from "@/app/tab-manager"
 import { studioProjects } from "@/commands/studio"
 import ProjectCover, { ProjectCoverData } from "@/components/project/project-cover"
 import StateLoader from "@/components/state-loader"
-import usePromiseState, { State } from "@/use-promise-state"
+import usePromiseState, { State } from "@/promise-state"
 
 export default function Projects({id, open}: {
     id: number

@@ -24,9 +24,9 @@ function PopupDisplay({children, popupManager}: {
     popupManager: PopupManager
 }) {
     return (
-        <div className="p-[1rem] rounded-[1rem] bg-[white]">
+        <div className="p-[1rem] rounded-[1rem] bg-dark-main text-dark-negative-main">
             <div>
-                <div className="cursor-pointer h-[1.5rem] w-[1.5rem] flex items-center justify-center rounded-full bg-[#d3d3d3]"
+                <div className="cursor-pointer h-[1.5rem] w-[1.5rem] flex items-center justify-center rounded-full bg-dark-main"
                     onClick={() => {
                         popupManager.close()
                     }}

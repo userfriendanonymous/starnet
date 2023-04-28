@@ -1,6 +1,6 @@
 import { invoke } from "@tauri-apps/api"
 import { Open } from "@/app/tab-manager"
-import usePromiseState from "@/use-promise-state"
+import usePromiseState from "@/promise-state"
 import {favoriteProject, loveProject, project, projectThumbnail} from "@/commands/project"
 import { sendUserComment, userIcon, userProjectComments } from "@/commands/user"
 import UserIcon from "@/components/user/user-icon"
@@ -24,7 +24,7 @@ export default function Project({open, id}: {
                         <div className="text-[1.5rem]">{state.data.title}</div>
                         <span>
                             by
-                            <span className="pl-[0.4rem] text-[blue] cursor-pointer" onClick={() => {
+                            <span className="pl-[0.4rem] text-light-negative-active cursor-pointer" onClick={() => {
                                 open({to: 'user', name: state.data.author.name}, 'Project Author - ' + state.data.author.name)
                             }}>
                                 {state.data.author.name}
@@ -65,7 +65,7 @@ export default function Project({open, id}: {
                     </div>
 
                     <div className="flex flex-col gap-[1rem] flex-grow">
-                        <div className="p-[1rem] bg-[#ebebeb] rounded-[1rem] flex-grow flex flex-col">
+                        <div className="p-[1rem] bg-light-weak rounded-[1rem] flex-grow flex flex-col">
                             <div className="font-bold text-[1.3rem]">Instructions</div>
                             <div className="overflow-y-scroll relative w-[100%] flex-grow">
                                 <div className="absolute top-0 left-0 right-0 bottom-0">
@@ -74,7 +74,7 @@ export default function Project({open, id}: {
                             </div>
                         </div>
 
-                        <div className="p-[1rem] bg-[#ebebeb] rounded-[1rem] flex-grow flex flex-col">
+                        <div className="p-[1rem] bg-light-weak rounded-[1rem] flex-grow flex flex-col">
                             <div className="font-bold text-[1.3rem]">Notes and Credits</div>
                             <div className="overflow-y-scroll relative w-[100%] flex-grow">
                                 <div className="absolute top-0 left-0 right-0 bottom-0">

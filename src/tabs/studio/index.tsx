@@ -1,6 +1,6 @@
 import { useState } from "react"
 import { Open } from "@/app/tab-manager"
-import usePromiseState from "@/use-promise-state"
+import usePromiseState from "@/promise-state"
 import { studio } from "@/commands/studio"
 import StudioThumbnail from "@/components/studio/studio-thumbnail"
 import Projects from "./projects"
@@ -43,7 +43,7 @@ export default function Studio({open, id}: {
                     <div className="font-bold text-[1.5rem]">
                         {data.title}
                     </div>
-                    <div className="relative text-[0.85rem] overflow-y-scroll bg-[#f2f2f2] rounded-[1rem] p-[0.7rem] break-words">
+                    <div className="relative text-[0.85rem] overflow-y-scroll bg-light-weak rounded-[1rem] p-[0.7rem] break-words">
                         <div className="relative top-0 left-0 right-0 bottom-0">{data.description}</div>
                     </div>
                 </div>}</StateLoader>
@@ -51,10 +51,10 @@ export default function Studio({open, id}: {
 
             <div className="flex flex-col gap-[1rem] flex-grow">
                 <div className="flex justify-between items-center">
-                    <button className="p-[1rem] rounded-full text-white bg-[#4a40ff]" onClick={openProjects}>Projects</button>
-                    <button className="p-[1rem] rounded-full text-white bg-[#4a40ff]" onClick={openComments}>Comments</button>
-                    <button className="p-[1rem] rounded-full text-white bg-[#4a40ff]" onClick={openCurators}>Curators</button>
-                    <button className="p-[1rem] rounded-full text-white bg-[#4a40ff]" onClick={openActivity}>Activity</button>
+                    <button className="p-[1rem] rounded-full text-white bg-light-active" onClick={openProjects}>Projects</button>
+                    <button className="p-[1rem] rounded-full text-white bg-light-active" onClick={openComments}>Comments</button>
+                    <button className="p-[1rem] rounded-full text-white bg-light-active" onClick={openCurators}>Curators</button>
+                    <button className="p-[1rem] rounded-full text-white bg-light-active" onClick={openActivity}>Activity</button>
                 </div>
 
                 {projectsChecked && (

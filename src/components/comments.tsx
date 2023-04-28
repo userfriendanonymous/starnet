@@ -1,4 +1,4 @@
-import { State } from "@/use-promise-state"
+import { State } from "@/promise-state"
 import { Comment as IComment } from '@bind/Comment'
 
 export default function Comments({data}: {

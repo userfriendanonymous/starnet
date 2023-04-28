@@ -1,6 +1,6 @@
 import { projectThumbnail } from "@/commands/project"
 import U8Img from "@/components/u8-img"
-import usePromiseState from "@/use-promise-state"
+import usePromiseState from "@/promise-state"
 
 export default function ProjectThumbnail({id, width, height}: {
     width: number
