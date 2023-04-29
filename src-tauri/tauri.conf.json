@@ -34,7 +34,7 @@
         "icons/icon.icns",
         "icons/icon.ico"
       ],
-      "identifier": "com.tauri.dev",
+      "identifier": "org.userfriend.starnet",
       "targets": "all"
     },
     "security": {
