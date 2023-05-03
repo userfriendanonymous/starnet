@@ -1,6 +1,5 @@
 use serde::Serialize;
 use ts_rs::TS;
-
 use super::UserHistory;
 
 // region: Project

@@ -1,5 +1,24 @@
-use serde::Serialize;
+use serde::{Serialize, Deserialize};
 use ts_rs::TS;
+
+#[derive(Deserialize, TS)]
+#[ts(export)]
+#[serde(rename_all = "camelCase")]
+pub struct SendComment {
+    pub content: String,
+    pub parent_id: Option<u64>,
+    pub to_id: Option<u64>,
+}
+
+impl From<SendComment> for s2rs::api::SendComment {
+    fn from(value: SendComment) -> Self {
+        Self {
+            content: value.content,
+            parent_id: value.parent_id,
+            to_id: value.to_id
+        }
+    }
+}
 
 #[derive(Debug, Serialize, TS)]
 #[ts(export)]

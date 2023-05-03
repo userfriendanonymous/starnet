@@ -1,18 +1,29 @@
+use serde::Serialize;
 use tauri::State;
+use ts_rs::TS;
 use crate::{AppState, entities::{Error, Result, FrontPage, News, Project2}, cursor::Cursor};
 use s2rs::api::{Tokens, UserInfo};
 
+#[derive(Serialize, TS)]
+#[ts(export)]
+#[serde(rename_all = "camelCase")]
+pub struct Login {
+    pub name: String,
+    pub message: String,
+}
+
 #[tauri::command]
-pub(crate) async fn login(state: State<'_, AppState>, name: &str, password: &str) -> Result<()> {
+pub(crate) async fn login(state: State<'_, AppState>, name: &str, password: &str) -> Result<Login> {
     type E = s2rs::api::LoginError;
 
-    let data = state.api.read().await.login(name, password).await.map_err(|e| 
+    let data = state.api.read().await.login(name, password).await.map_err(|e| {
+        dbg![ &e ];
         match e {
             E::HeaderParsing(_) | E::CookiesParsing(_) | E::HeadersConverting(_) | E::Parsing(_)
             | E::SessionIdCookieNotFound | E::SetCookieHeaderNotFound => Error::BadResponse,
             E::This(error) => error.into(),
         }
-    )?;
+    })?;
 
     let tokens = Tokens {
         csrf: "a".to_owned(),
@@ -21,14 +32,17 @@ pub(crate) async fn login(state: State<'_, AppState>, name: &str, password: &str
     };
 
     let mut api = state.api.write().await;
-    *api = s2rs::Api::with_auth(data.name, &tokens).map_err(|e|
+    *api = s2rs::Api::with_auth(data.name.clone(), &tokens).map_err(|e|
         match e {
             s2rs::api::WithAuthError::Client(_) => Error::Network,
             s2rs::api::WithAuthError::Headers(_) => Error::BadResponse
         }
     )?;
 
-    Ok(())
+    Ok(Login {
+        name: data.name,
+        message: data.message
+    })
 }
 
 #[tauri::command]

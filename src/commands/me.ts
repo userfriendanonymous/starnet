@@ -1,11 +1,13 @@
 import { Project2 } from '@bind/Project2';
 import { News } from '@bind/News';
 import { FrontPage } from '@bind/FrontPage';
+import { Login } from '@bind/Login';
 import { command } from ".";
 import { Cursor } from '@bind/Cursor';
+import { Error } from '@bind/Error'
 
 export const login = (name: string, password: string) =>
-    command<null, Error>('login', {name, password})
+    command<Login, Error>('login', {name, password})
 
 export const frontPage = () =>
     command<FrontPage, Error>('front_page', {})

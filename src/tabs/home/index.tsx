@@ -5,9 +5,6 @@ import FrontPage from "./front-page"
 import News from "./news"
 
 export default function Home({openTab}: {openTab: Open}) {
-    const nameRef = useRef<HTMLInputElement>(null!)
-    const passwordRef = useRef<HTMLInputElement>(null!)
-
     const userNameRef = useRef<HTMLInputElement>(null!)
     const projectIdRef = useRef<HTMLInputElement>(null!)
     const studioIdRef = useRef<HTMLInputElement>(null!)
@@ -25,14 +22,6 @@ export default function Home({openTab}: {openTab: Open}) {
     const onOpenStudio = useCallback(() => {
         let id = Number(studioIdRef.current.value)
         openTab({to: 'studio', id}, 'User - ' + id)
-    }, [open])
-
-    const onLogin = useCallback(async () => {
-        let name = nameRef.current.value
-        let password = passwordRef.current.value
-        nameRef.current.value = ''
-        passwordRef.current.value = ''
-        await login(name, password)
     }, [open])
 
     return (

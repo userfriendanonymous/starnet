@@ -1,3 +1,5 @@
+use serde::Deserialize;
+use ts_rs::TS;
 pub use user::*;
 pub use project::*;
 pub use studio::*;
@@ -7,3 +9,4 @@ pub mod user;
 pub mod project;
 pub mod studio;
 pub mod me;
+

@@ -88,7 +88,11 @@ export default function User({open, name}: Props) {
                 <textarea ref={commentRef}/>
                 <StateLoader state={state}>{data =>
                     <button className="bg-light-active p-[1rem]" onClick={async () => {
-                        await sendUserComment(data.name, commentRef.current.value)
+                        await sendUserComment(data.name, {
+                            content: commentRef.current.value,
+                            parentId: null,
+                            toId: null
+                        })
                     }}>Send</button>
                 }</StateLoader>
             </div>

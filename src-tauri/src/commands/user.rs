@@ -1,6 +1,5 @@
-use s2rs::api::UserInfo;
 use tauri::State;
-use crate::{AppState, entities::{Error, User, Project3, UserComment, Result, Studio2, Comment, UserFeatured}, cursor::Cursor};
+use crate::{AppState, entities::{Error, User, Project3, UserComment, Result, Studio2, Comment, UserFeatured, SendComment}, cursor::Cursor};
 
 #[tauri::command]
 pub(crate) async fn user(state: State<'_, AppState>, name: &str) -> Result<User> {
@@ -33,8 +32,8 @@ pub(crate) async fn user_curating_studios(state: State<'_, AppState>, name: &str
 }
 
 #[tauri::command]
-pub(crate) async fn user_comments(state: State<'_, AppState>, name: &str, cursor: Cursor) -> Result<Vec<UserComment>> {
-    let data = state.api.read().await.user_comments(name, cursor).await.map_err(|e|
+pub(crate) async fn user_comments(state: State<'_, AppState>, name: &str, page: Option<u8>) -> Result<Vec<UserComment>> {
+    let data = state.api.read().await.user_comments(name, page).await.map_err(|e|
         match e {
             s2rs::api::GetUserCommentsError::Parsing => Error::BadResponse,
             s2rs::api::GetUserCommentsError::This(error) => error.into()
@@ -50,8 +49,8 @@ pub(crate) async fn user_project_comments(state: State<'_, AppState>, name: &str
 }
 
 #[tauri::command]
-pub(crate) async fn send_user_comment(state: State<'_, AppState>, name: &str, content: String, parent_id: Option<u64>, to_id: Option<u64>) -> Result<()> {
-    Ok(state.api.read().await.send_user_comment(name, content, parent_id, to_id).await?)
+pub(crate) async fn send_user_comment(state: State<'_, AppState>, name: &str, data: SendComment) -> Result<()> {
+    Ok(state.api.read().await.send_user_comment(name, &data.into()).await?)
 }
 
 #[tauri::command]

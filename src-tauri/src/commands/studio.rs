@@ -1,6 +1,7 @@
 use s2rs::api::StudioInfo;
 use tauri::State;
-use crate::{AppState, entities::{Error, Studio, User, Comment, StudioAction, StudioProject, Result}, cursor::Cursor};
+use crate::{AppState, entities::{Error, Studio, User, Comment, StudioAction, StudioProject, Result, SendComment}, cursor::Cursor};
+
 
 #[tauri::command]
 pub(crate) async fn studio(state: State<'_, AppState>, id: u64) -> Result<Studio> {
@@ -70,8 +71,8 @@ pub(crate) async fn remove_studio_project(state: State<'_, AppState>, id: u64, p
 }
 
 #[tauri::command]
-pub(crate) async fn send_studio_comment(state: State<'_, AppState>, id: u64, content: &str, parent_id: Option<u64>, to_id: Option<u64>) -> Result<()> {
-    Ok(state.api.read().await.send_studio_comment(id, content, parent_id, to_id).await?)
+pub(crate) async fn send_studio_comment(state: State<'_, AppState>, id: u64, data: SendComment) -> Result<()> {
+    Ok(state.api.read().await.send_studio_comment(id, &data.into()).await?)
 }
 
 #[tauri::command]

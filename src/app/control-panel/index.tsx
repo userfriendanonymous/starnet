@@ -1,3 +1,4 @@
+import useAuth from "@/auth"
 import { useCallback } from "react"
 import { PopupManager } from "../popup-manager"
 import { TabManager, Reload as ReloadTab } from "../tab-manager"
@@ -7,6 +8,7 @@ export default function ControlPanel({tabManager, popupManager}: {
     tabManager: TabManager
     popupManager: PopupManager
 }) {
+    const auth = useAuth(({state}) => state)
 
     const onReloadTab = useCallback(() => {
         if (tabManager.currentId) {
@@ -34,10 +36,26 @@ export default function ControlPanel({tabManager, popupManager}: {
                 <Button onClick={() => popupManager.open({to: 'user'})}>
                     S
                 </Button>
+                {
+                    auth.is == 'out' ? <div>
+                        <Button onClick={() => popupManager.open({to: 'auth'})}>
+                            L
+                        </Button>
+                    </div>
+
+                    : auth.is == 'in' ? <div className="flex items-center gap-[0.5rem]">
+                        <div className="ml-[3rem] flex items-center gap-[0.3rem]">
+                            <div className="text-[0.9rem]">{auth.data.name}</div>
+                        </div>
+                        <Button onClick={() => {}}>
+                            O
+                        </Button>
+                    </div>
+
+                    :
+                    <div>Loading..</div>
+                }
                 
-                <div className="ml-[3rem] flex items-center gap-[0.3rem]">
-                    <div className="text-[0.9rem]">UserFriend-</div>
-                </div>
             </div>
         </div>
     )

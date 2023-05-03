@@ -6,6 +6,7 @@ import { StudioProject } from "@bind/StudioProject";
 import { User } from "@bind/User"
 import { Error } from '@bind/Error'
 import { command } from '.';
+import { SendComment } from '@bind/SendComment';
 
 export const studio = (id: number) =>
     command<Studio, Error>('studio', {id})
@@ -40,8 +41,8 @@ export const addStudioProject = (id: number) =>
 export const removeStudioProject = (id: number, projectId: number) =>
     command<null, Error>('remove_studio_project', {id, projectId})
 
-export const sendStudioComment = (id: number, content: string, parentId?: number, toId?: number) =>
-    command<null, Error>('send_studio_comment', {id, content, parentId, toId})
+export const sendStudioComment = (id: number, data: SendComment) =>
+    command<null, Error>('send_studio_comment', {id, data})
 
 export const inviteStudioCurator = (id: number, name: string) =>
     command<null, Error>('invite_studio_curator', {id, name})

@@ -1,3 +1,4 @@
+import { SendComment } from '@bind/SendComment';
 import { UserFeatured } from '@bind/UserFeatured';
 import { Studio2 } from '@bind/Studio2'
 import { User } from "@bind/User"
@@ -6,6 +7,7 @@ import { Project3 } from "@bind/Project3"
 import { UserComment } from '@bind/UserComment'
 import { Comment } from '@bind/Comment'
 import { command } from '.'
+import { Error } from '@bind/Error'
 
 export const user = (name: string) =>
     command<User, Error>('user', {name})
@@ -22,14 +24,14 @@ export const userFavorites = (name: string, cursor: Cursor) =>
 export const userCuratingStudios = (name: string, cursor: Cursor) =>
     command<Studio2, Error>('user_curating_studios', {name, cursor})
 
-export const userComments = (name: string, cursor: Cursor) =>
-    command<UserComment[], Error>('user_comments', {name, cursor})
+export const userComments = (name: string, page?: number) =>
+    command<UserComment[], Error>('user_comments', {name, page})
 
 export const userProjectComments = (name: string, id: number, cursor: Cursor) =>
     command<Comment[], Error>('user_project_comments', {name, id, cursor})
 
-export const sendUserComment = (name: string, content: string, parentId?: number, toId?: number) =>
-    command<null, Error>('send_user_comment', {name, content, parentId, toId})
+export const sendUserComment = (name: string, data: SendComment) =>
+    command<null, Error>('send_user_comment', {name, data})
 
 export const followUser = (name: string) =>
     command<null, Error>('follow_user', {name})
