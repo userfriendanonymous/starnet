@@ -20,11 +20,11 @@ pub struct Project {
     pub token: String
 }
 
-impl Project {
-    pub fn new(data: s2rs::api::Project) -> Self {
+impl From<s2rs::api::Project> for Project {
+    fn from(data: s2rs::api::Project) -> Self {
         Self {
-            author: ProjectAuthor::new(data.author),
-            stats: ProjectStats::new(data.stats),
+            author: data.author.into(),
+            stats: data.stats.into(),
             comments_allowed: data.comments_allowed,
             description: data.description,
             id: data.id,
@@ -50,10 +50,10 @@ pub struct ProjectAuthor {
     pub history: UserHistory,
 }
 
-impl ProjectAuthor {
-    pub fn new(data: s2rs::api::ProjectAuthor) -> Self {
+impl From<s2rs::api::ProjectAuthor> for ProjectAuthor {
+    fn from(data: s2rs::api::ProjectAuthor) -> Self {
         Self {
-            history: UserHistory::new(data.history),
+            history: data.history.into(),
             id: data.id,
             name: data.name,
             scratch_team: data.scratch_team
@@ -73,8 +73,8 @@ pub struct ProjectStats {
     remixes: u64,
 }
 
-impl ProjectStats {
-    pub fn new(data: s2rs::api::ProjectStats) -> Self {
+impl From<s2rs::api::ProjectStats> for ProjectStats {
+    fn from(data: s2rs::api::ProjectStats) -> Self {
         Self {
             favorites: data.favorites,
             loves: data.loves,
@@ -95,8 +95,8 @@ pub struct ProjectHistory {
     pub shared: String,
 }
 
-impl ProjectHistory {
-    pub fn new(data: s2rs::api::ProjectHistory) -> Self {
+impl From<s2rs::api::ProjectHistory> for ProjectHistory {
+    fn from(data: s2rs::api::ProjectHistory) -> Self {
         Self {
             created: data.created,
             modified: data.modified,
@@ -125,27 +125,22 @@ pub struct Project3 {
     pub history: ProjectHistory,
 }
 
-impl Project3 {
-    pub fn new(data: s2rs::api::Project3) -> Self {
+impl From<s2rs::api::Project3> for Project3 {
+    fn from(data: s2rs::api::Project3) -> Self {
         Self {
-            author: Project3Author::new(data.author),
+            author: data.author.into(),
             comments_allowed: data.comments_allowed,
             description: data.description,
-            history: ProjectHistory::new(data.history),
+            history: data.history.into(),
             id: data.id,
             instructions: data.instructions,
             is_published: data.is_published,
             public: data.public, 
-            remix: ProjectRemix::new(data.remix),
-            stats: ProjectStats::new(data.stats),
+            remix: data.remix.into(),
+            stats: data.stats.into(),
             title: data.title,
             visibility: data.visibility
         }
-    }
-
-    
-    pub fn vec_new(data: Vec<s2rs::api::Project3>) -> Vec<Self> {
-        data.into_iter().map(Self::new).collect()
     }
 }
 // endregion: Project3
@@ -169,26 +164,22 @@ pub struct Project2 {
     pub history: ProjectHistory,
 }
 
-impl Project2 {
-    pub fn new(data: s2rs::api::Project2) -> Self {
+impl From<s2rs::api::Project2> for Project2 {
+    fn from(data: s2rs::api::Project2) -> Self {
         Self {
-            author: ProjectAuthor::new(data.author),
+            author: data.author.into(),
             comments_allowed: data.comments_allowed,
             description: data.description,
-            history: ProjectHistory::new(data.history),
+            history: data.history.into(),
             id: data.id,
             instructions: data.instructions,
             is_published: data.is_published,
             public: data.public,
-            remix: ProjectRemix::new(data.remix),
-            stats: ProjectStats::new(data.stats),
+            remix: data.remix.into(),
+            stats: data.stats.into(),
             title: data.title,
             visibility: data.visibility
         }
-    }
-
-    pub fn vec_new(data: Vec<s2rs::api::Project2>) -> Vec<Self> {
-        data.into_iter().map(Self::new).collect()
     }
 }
 // endregion: Project2
@@ -203,10 +194,10 @@ pub struct Project3Author {
     pub history: UserHistory,
 }
 
-impl Project3Author {
-    pub fn new(data: s2rs::api::Project3Author) -> Self {
+impl From<s2rs::api::Project3Author> for Project3Author {
+    fn from(data: s2rs::api::Project3Author) -> Self {
         Self {
-            history: UserHistory::new(data.history),
+            history: data.history.into(),
             id: data.id,
             scratch_team: data.scratch_team,
         }
@@ -223,8 +214,8 @@ pub struct ProjectRemix {
     pub root: Option<u64>,
 }
 
-impl ProjectRemix {
-    pub fn new(data: s2rs::api::ProjectRemix) -> Self {
+impl From<s2rs::api::ProjectRemix> for ProjectRemix {
+    fn from(data: s2rs::api::ProjectRemix) -> Self {
         Self {
             parent: data.parent,
             root: data.root

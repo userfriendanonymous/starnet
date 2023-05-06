@@ -17,17 +17,17 @@ pub struct Studio {
     pub stats: StudioStats
 }
 
-impl Studio {
-    pub fn new(data: s2rs::api::Studio) -> Self {
+impl From<s2rs::api::Studio> for Studio {
+    fn from(data: s2rs::api::Studio) -> Self {
         Self {
             comments_allowed: data.comments_allowed,
             description: data.description,
-            history: StudioHistory::new(data.history),
+            history: data.history.into(),
             host: data.host,
             id: data.id,
             open_to_all: data.open_to_all,
             public: data.public,
-            stats: StudioStats::new(data.stats),
+            stats: data.stats.into(),
             title: data.title,
             visibility: data.visibility
         }
@@ -50,12 +50,12 @@ pub struct Studio2 {
     pub history: StudioHistory,
 }
 
-impl Studio2 {
-    pub fn new(data: s2rs::api::Studio2) -> Self {
+impl From<s2rs::api::Studio2> for Studio2 {
+    fn from(data: s2rs::api::Studio2) -> Self {
         Self {
             comments_allowed: data.comments_allowed,
             description: data.description,
-            history: StudioHistory::new(data.history),
+            history: data.history.into(),
             host: data.host,
             id: data.id,
             open_to_all: data.open_to_all,
@@ -63,10 +63,6 @@ impl Studio2 {
             title: data.title,
             visibility: data.visibility
         }
-    }
-
-    pub fn vec_new(data: Vec<s2rs::api::Studio2>) -> Vec<Self> {
-        data.into_iter().map(Self::new).collect()
     }
 }
 
@@ -78,8 +74,8 @@ pub struct StudioHistory {
     pub modified: String,
 }
 
-impl StudioHistory {
-    pub fn new(data: s2rs::api::StudioHistory) -> Self {
+impl From<s2rs::api::StudioHistory> for StudioHistory {
+    fn from(data: s2rs::api::StudioHistory) -> Self {
         Self {
             created: data.created,
             modified: data.modified
@@ -97,8 +93,8 @@ pub struct StudioStats {
     pub projects: u64,
 }
 
-impl StudioStats {
-    pub fn new(data: s2rs::api::StudioStats) -> Self {
+impl From<s2rs::api::StudioStats> for StudioStats {
+    fn from(data: s2rs::api::StudioStats) -> Self {
         Self {
             comments: data.comments,
             followers: data.followers,
@@ -119,8 +115,8 @@ pub struct StudioProject {
     pub creator_id: u64,
 }
 
-impl StudioProject {
-    pub fn new(data: s2rs::api::StudioProject) -> Self {
+impl From<s2rs::api::StudioProject> for StudioProject {
+    fn from(data: s2rs::api::StudioProject) -> Self {
         Self {
             actor_id: data.actor_id,
             creator_id: data.creator_id,
@@ -128,9 +124,5 @@ impl StudioProject {
             name: data.name,
             title: data.title
         }
-    }
-
-    pub fn vec_new(data: Vec<s2rs::api::StudioProject>) -> Vec<Self> {
-        data.into_iter().map(Self::new).collect()
     }
 }

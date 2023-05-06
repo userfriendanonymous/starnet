@@ -1,7 +1,7 @@
 use serde::Serialize;
 use tauri::State;
 use ts_rs::TS;
-use crate::{AppState, entities::{Error, Result, FrontPage, News, Project2}, cursor::Cursor};
+use crate::{AppState, entities::{Error, Result, FrontPage, News, Project2, StuffProject, StuffSharedProject, StuffStudio}, cursor::Cursor, from_vec::FromVec};
 use s2rs::api::{Tokens, UserInfo};
 
 #[derive(Serialize, TS)]
@@ -60,19 +60,19 @@ pub(crate) async fn news(state: State<'_, AppState>) -> Result<Vec<News>> {
 #[tauri::command]
 pub(crate) async fn projects_loved_by_following(state: State<'_, AppState>, cursor: Cursor) -> Result<Vec<Project2>> {
     let data = state.api.read().await.projects_loved_by_following(cursor).await?;
-    Ok(Project2::vec_new(data))
+    Ok(Project2::from_vec(data))
 }
 
 #[tauri::command]
 pub(crate) async fn projects_shared_by_following(state: State<'_, AppState>, cursor: Cursor) -> Result<Vec<Project2>> {
     let data = state.api.read().await.projects_shared_by_following(cursor).await?;
-    Ok(Project2::vec_new(data))
+    Ok(Project2::from_vec(data))
 }
 
 #[tauri::command]
 pub(crate) async fn viewed_projects(state: State<'_, AppState>, cursor: Cursor) -> Result<Vec<Project2>> {
     let data = state.api.read().await.viewed_projects(cursor).await?;
-    Ok(Project2::vec_new(data))
+    Ok(Project2::from_vec(data))
 }
 
 #[tauri::command]
@@ -96,4 +96,31 @@ pub(crate) async fn set_profile_status(state: State<'_, AppState>, content: Stri
 #[tauri::command]
 pub(crate) async fn toggle_profile_commenting(state: State<'_, AppState>) -> Result<()> {
     Ok(state.api.read().await.toggle_profile_commenting().await?)
+}
+
+#[tauri::command]
+pub(crate) async fn stuff_all(state: State<'_, AppState>, page: u32, sort_by: &str) -> Result<Vec<StuffProject>> {
+    println!("Hello");
+    Ok(StuffProject::from_vec(state.api.read().await.stuff_all(page, sort_by).await.map_err(|e| {dbg![&e]; e})?))
+}
+
+#[tauri::command]
+pub(crate) async fn stuff_shared(state: State<'_, AppState>, page: u32, sort_by: &str) -> Result<Vec<StuffSharedProject>> {
+    Ok(StuffSharedProject::from_vec(state.api.read().await.stuff_shared(page, sort_by).await.map_err(|e| {dbg![&e]; e})?))
+}
+
+#[tauri::command]
+pub(crate) async fn stuff_unshared(state: State<'_, AppState>, page: u32, sort_by: &str) -> Result<Vec<StuffProject>> {
+    Ok(StuffProject::from_vec(state.api.read().await.stuff_unshared(page, sort_by).await.map_err(|e| {dbg![&e]; e})?))
+}
+
+#[tauri::command]
+pub(crate) async fn stuff_trashed(state: State<'_, AppState>, page: u32, sort_by: &str) -> Result<Vec<StuffProject>> {
+    Ok(StuffProject::from_vec(state.api.read().await.stuff_trashed(page, sort_by).await.map_err(|e| {dbg![&e]; e})?))
+}
+
+#[tauri::command]
+pub(crate) async fn stuff_studios(state: State<'_, AppState>, page: u32, sort_by: &str) -> Result<Vec<StuffStudio>> {
+    // StuffProject::from_vec(state.api.read().await.stuff_studios(page, sort_by).await?);
+    Ok(vec![]) // TODO!!
 }

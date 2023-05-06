@@ -1,4 +1,5 @@
-import { Manager as TabManager, Open } from "@/app/tab-manager"
+import { TabManager, Open } from "@/app/tab-manager"
+import Stuff from "@/tabs/stuff"
 import Home from "../tabs/home"
 import Project from "../tabs/project"
 import Studio from "../tabs/studio"
@@ -15,6 +16,8 @@ export type Route = {
 } | {
     to: 'studio'
     id: number
+} | {
+    to: 'stuff'
 }
 
 export default function TabRouter({route, tabManager}: {
@@ -38,6 +41,9 @@ export default function TabRouter({route, tabManager}: {
         case 'studio':
             r = <Studio open={tabManager.open} id={route.id}/>
             break
+
+        case 'stuff':
+            r = <Stuff openTab={tabManager.open}/>
     }
 
     return r

@@ -15,21 +15,17 @@ pub struct User {
     pub name: String,
 }
 
-impl User {
-    pub fn new(data: s2rs::api::User) -> Self {
+impl From<s2rs::api::User> for User {
+    fn from(data: s2rs::api::User) -> Self {
         Self {
             bio: data.profile.bio,
             country: data.profile.country,
             id: data.id,
-            history: UserHistory::new(data.history),
+            history: data.history.into(),
             scratch_team: data.scratch_team,
             status: data.profile.status,
             name: data.name,
         }
-    }
-
-    pub fn vec_new(data: Vec<s2rs::api::User>) -> Vec<Self> {
-        data.into_iter().map(Self::new).collect()
     }
 }
 // endregion: User
@@ -42,8 +38,8 @@ pub struct UserHistory {
     pub joined: String
 }
 
-impl UserHistory {
-    pub fn new(data: s2rs::api::UserHistory) -> Self {
+impl From<s2rs::api::UserHistory> for UserHistory {
+    fn from(data: s2rs::api::UserHistory) -> Self {
         Self {
             joined: data.joined
         }

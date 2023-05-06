@@ -8,6 +8,7 @@ import Comments from "./comments"
 import Curators from "./curators"
 import Activity from "./activity"
 import StateLoader from "@/components/state-loader"
+import MaybeVisible from "@/components/maybe-visible"
 
 type Tab = 'projects' | 'comments' | 'curators' | 'activity'
 
@@ -82,17 +83,5 @@ export default function Studio({open, id}: {
                 )}
             </div>
         </div>
-    )
-}
-
-function MaybeVisible({children, is}: {
-    children: JSX.Element
-    is: boolean
-}) {
-    return (
-        is ?
-        <div>{children}</div>
-        :
-        <div className="hidden">{children}</div>
     )
 }

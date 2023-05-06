@@ -1,3 +1,6 @@
+import { StuffStudio } from './../../src-tauri/bindings/StuffStudio';
+import { StuffSharedProject } from './../../src-tauri/bindings/StuffSharedProject';
+import { StuffProject } from './../../src-tauri/bindings/StuffProject';
 import { Project2 } from '@bind/Project2';
 import { News } from '@bind/News';
 import { FrontPage } from '@bind/FrontPage';
@@ -32,4 +35,19 @@ export const setProfileStatus = (content: string) =>
 
 export const toggleProfileCommenting = () =>
     command<Project2[], Error>('toggle_profile_commenting', {})
+    
+export const stuffAll = (page: number, sortBy: string) =>
+    command<StuffProject[], Error>('stuff_all', {page, sortBy})
+
+export const stuffShared = (page: number, sortBy: string) =>
+    command<StuffSharedProject[], Error>('stuff_shared', {page, sortBy})
+
+export const stuffUnshared = (page: number, sortBy: string) =>
+    command<StuffProject[], Error>('stuff_unshared', {page, sortBy})
+
+export const stuffTrashed = (page: number, sortBy: string) =>
+    command<StuffProject[], Error>('stuff_trashed', {page, sortBy})
+
+export const stuffStudios = (page: number, sortBy: string) =>
+    command<StuffStudio[], Error>('stuff_studios', {page, sortBy})
     

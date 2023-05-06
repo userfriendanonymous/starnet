@@ -12,8 +12,8 @@ pub struct StudioAction {
     pub event: StudioActionEvent,
 }
 
-impl StudioAction {
-    pub fn new(data: s2rs::api::StudioAction) -> Self {
+impl From<s2rs::api::StudioAction> for StudioAction {
+    fn from(data: s2rs::api::StudioAction) -> Self {
         Self {
             actor_id: data.actor_id,
             actor_name: data.actor_name,
@@ -21,10 +21,6 @@ impl StudioAction {
             event: StudioActionEvent::new(data.event),
             id: data.id
         }
-    }
-
-    pub fn vec_new(data: Vec<s2rs::api::StudioAction>) -> Vec<Self> {
-        data.into_iter().map(Self::new).collect()
     }
 }
 

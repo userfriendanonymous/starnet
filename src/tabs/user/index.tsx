@@ -10,6 +10,7 @@ import StateLoader from "@/components/state-loader"
 import ProjectsRow from "@/components/project/projects-row"
 import StudiosRow from "@/components/studio/studios-row"
 import ActionLoader from "@/components/action-loader"
+import usePromiseAction from "@/promise-action"
 
 interface Props {
     name: string
@@ -22,7 +23,7 @@ export default function User({open, name}: Props) {
     const [favorites] = usePromiseState(() => userFavorites(name, {start: 0, end: 5}))
     const [curatingStudios] = usePromiseState(() => userCuratingStudios(name, {start: 0, end: 5}))
     const commentRef = useRef<HTMLTextAreaElement>(null!)
-    const [comments] = usePromiseState(() => userComments(name, {start: 0, end: 5}))
+    const [comments] = usePromiseState(() => userComments(name, 1))
 
     return (
         <div className="p-[1rem] flex flex-col gap-[1rem]">

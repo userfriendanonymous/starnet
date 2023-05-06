@@ -50,6 +50,16 @@ export default function ControlPanel({tabManager, popupManager}: {
                         <Button onClick={() => {}}>
                             O
                         </Button>
+                        <Button onClick={() => {
+                            tabManager.open({to: 'user', name: auth.data.name}, 'My Profile')
+                        }}>
+                            M
+                        </Button>
+                        <Button onClick={() => {
+                            tabManager.open({to: 'stuff'}, 'My Stuff')
+                        }}>
+                            S
+                        </Button>
                     </div>
 
                     :

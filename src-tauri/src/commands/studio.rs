@@ -1,12 +1,11 @@
 use s2rs::api::StudioInfo;
 use tauri::State;
-use crate::{AppState, entities::{Error, Studio, User, Comment, StudioAction, StudioProject, Result, SendComment}, cursor::Cursor};
+use crate::{AppState, entities::{Error, Studio, User, Comment, StudioAction, StudioProject, Result, SendComment}, cursor::Cursor, from_vec::FromVec};
 
 
 #[tauri::command]
 pub(crate) async fn studio(state: State<'_, AppState>, id: u64) -> Result<Studio> {
-    let data = state.api.read().await.studio_meta(id).await?;
-    Ok(Studio::new(data))
+    Ok(state.api.read().await.studio_meta(id).await?.into())
 }
 
 #[tauri::command]
@@ -18,25 +17,25 @@ pub(crate) async fn studio_thumbnail(state: State<'_, AppState>, id: u64, width:
 #[tauri::command]
 pub(crate) async fn studio_projects(state: State<'_, AppState>, id: u64, cursor: Cursor) -> Result<Vec<StudioProject>> {
     let data = state.api.read().await.studio_projects(id, cursor).await?;
-    Ok(StudioProject::vec_new(data))
+    Ok(StudioProject::from_vec(data))
 }
 
 #[tauri::command]
 pub(crate) async fn studio_curators(state: State<'_, AppState>, id: u64, cursor: Cursor) -> Result<Vec<User>> {
     let data = state.api.read().await.studio_curators(id, cursor).await?;
-    Ok(User::vec_new(data))
+    Ok(User::from_vec(data))
 }
 
 #[tauri::command]
 pub(crate) async fn studio_managers(state: State<'_, AppState>, id: u64, cursor: Cursor) -> Result<Vec<User>> {
     let data = state.api.read().await.studio_managers(id, cursor).await?;
-    Ok(User::vec_new(data))
+    Ok(User::from_vec(data))
 }
 
 #[tauri::command]
 pub(crate) async fn studio_comments(state: State<'_, AppState>, id: u64, cursor: Cursor) -> Result<Vec<Comment>> {
     let data = state.api.read().await.studio_comments(id, cursor).await?;
-    Ok(Comment::vec_new(data))
+    Ok(Comment::from_vec(data))
 }
 
 #[tauri::command]
@@ -47,7 +46,7 @@ pub(crate) async fn studio_activity(state: State<'_, AppState>, id: u64, cursor:
             s2rs::api::GetStudioActivityError::This(error) => error.into()
         }
     )?;
-    Ok(StudioAction::vec_new(data))
+    Ok(StudioAction::from_vec(data))
 }
 
 #[tauri::command]

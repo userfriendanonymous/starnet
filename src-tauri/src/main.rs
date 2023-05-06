@@ -6,6 +6,7 @@ use tokio::sync::RwLock;
 
 mod entities;
 mod commands;
+mod from_vec;
 mod cursor;
 #[cfg(test)] mod tests;
 
@@ -37,6 +38,8 @@ fn main() {
             accept_studio_invite, open_studio, close_studio, promote_studio_curator,
 
             login, front_page, news, projects_loved_by_following, projects_shared_by_following, viewed_projects,
+
+            stuff_all, stuff_shared, stuff_unshared, stuff_trashed, stuff_studios,
 
         ])
         .run(tauri::generate_context!())

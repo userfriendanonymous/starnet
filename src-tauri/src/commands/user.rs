@@ -1,34 +1,32 @@
 use tauri::State;
-use crate::{AppState, entities::{Error, User, Project3, UserComment, Result, Studio2, Comment, UserFeatured, SendComment}, cursor::Cursor};
+use crate::{AppState, entities::{Error, User, Project3, UserComment, Result, Studio2, Comment, UserFeatured, SendComment}, cursor::Cursor, from_vec::FromVec};
 
 #[tauri::command]
 pub(crate) async fn user(state: State<'_, AppState>, name: &str) -> Result<User> {
-    let data = state.api.read().await.user_meta(name).await?;
-    Ok(User::new(data))
+    Ok(state.api.read().await.user_meta(name).await?.into())
 }
 
 #[tauri::command]
 pub(crate) async fn user_icon(state: State<'_, AppState>, id: u64, width: u16, height: u16) -> Result<Vec<u8>> {
-    let data = state.api.read().await.user_icon(id, width, height).await?;
-    Ok(data)
+    Ok(state.api.read().await.user_icon(id, width, height).await?)
 }
 
 #[tauri::command]
 pub(crate) async fn user_projects(state: State<'_, AppState>, name: &str, cursor: Cursor) -> Result<Vec<Project3>> {
     let data = state.api.read().await.user_projects(name, cursor).await?;
-    Ok(Project3::vec_new(data))
+    Ok(Project3::from_vec(data))
 }
 
 #[tauri::command]
 pub(crate) async fn user_favorites(state: State<'_, AppState>, name: &str, cursor: Cursor) -> Result<Vec<Project3>> {
     let data = state.api.read().await.user_favorites(name, cursor).await?;
-    Ok(Project3::vec_new(data))
+    Ok(Project3::from_vec(data))
 }
 
 #[tauri::command]
 pub(crate) async fn user_curating_studios(state: State<'_, AppState>, name: &str, cursor: Cursor) -> Result<Vec<Studio2>> {
     let data = state.api.read().await.user_curating_studios(name, cursor).await?;
-    Ok(Studio2::vec_new(data))
+    Ok(Studio2::from_vec(data))
 }
 
 #[tauri::command]
@@ -45,7 +43,7 @@ pub(crate) async fn user_comments(state: State<'_, AppState>, name: &str, page: 
 #[tauri::command]
 pub(crate) async fn user_project_comments(state: State<'_, AppState>, name: &str, id: u64, cursor: Cursor) -> Result<Vec<Comment>> {
     let data = state.api.read().await.user_project_comments(name, id, cursor).await?;
-    Ok(Comment::vec_new(data))
+    Ok(Comment::from_vec(data))
 }
 
 #[tauri::command]

@@ -34,10 +34,10 @@ pub struct Comment {
     pub reply_count: u64,
 }
 
-impl Comment {
-    pub fn new(data: s2rs::api::Comment) -> Self {
+impl From<s2rs::api::Comment> for Comment {
+    fn from(data: s2rs::api::Comment) -> Self {
         Self {
-            author: CommentAuthor::new(data.author),
+            author: data.author.into(),
             content: data.content,
             created_at: data.created_at,
             id: data.id,
@@ -46,10 +46,6 @@ impl Comment {
             reply_count: data.reply_count,
             to_user_id: data.to_user_id
         }
-    }
-
-    pub fn vec_new(data: Vec<s2rs::api::Comment>) -> Vec<Self> {
-        data.into_iter().map(Self::new).collect()
     }
 }
 
@@ -62,8 +58,8 @@ pub struct CommentAuthor {
     pub scratch_team: bool,
 }
 
-impl CommentAuthor {
-    pub fn new(data: s2rs::api::CommentAuthor) -> Self {
+impl From<s2rs::api::CommentAuthor> for CommentAuthor {
+    fn from(data: s2rs::api::CommentAuthor) -> Self {
         Self {
             id: data.id,
             name: data.name,

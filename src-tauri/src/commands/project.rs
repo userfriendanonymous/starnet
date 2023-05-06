@@ -3,14 +3,12 @@ use crate::{AppState, entities::{Project, Result}};
 
 #[tauri::command]
 pub(crate) async fn project(state: State<'_, AppState>, id: u64) -> Result<Project> {
-    let data = state.api.read().await.project_meta(id).await?;
-    Ok(Project::new(data))
+    Ok(state.api.read().await.project_meta(id).await?.into())
 }
 
 #[tauri::command]
 pub(crate) async fn project_thumbnail(state: State<'_, AppState>, id: u64, width: u16, height: u16) -> Result<Vec<u8>> {
-    let data = state.api.read().await.project_thumbnail(id, width, height).await?;
-    Ok(data)
+    Ok(state.api.read().await.project_thumbnail(id, width, height).await?)
 }
 
 #[tauri::command]
