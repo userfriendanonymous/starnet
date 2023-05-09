@@ -1,7 +1,7 @@
 use serde::Serialize;
 use tauri::State;
 use ts_rs::TS;
-use crate::{AppState, entities::{Error, Result, FrontPage, News, Project2, StuffProject, StuffSharedProject, StuffStudio}, cursor::Cursor, from_vec::FromVec};
+use crate::{AppState, entities::{Error, Result, FrontPage, News, Project2, StuffProject, StuffSharedProject, StuffStudio, ExploreQuery, Studio2, SearchQuery}, cursor::Cursor, from_vec::FromVec};
 use s2rs::api::{Tokens, UserInfo};
 
 #[derive(Serialize, TS)]
@@ -123,4 +123,25 @@ pub(crate) async fn stuff_trashed(state: State<'_, AppState>, page: u32, sort_by
 pub(crate) async fn stuff_studios(state: State<'_, AppState>, page: u32, sort_by: &str) -> Result<Vec<StuffStudio>> {
     // StuffProject::from_vec(state.api.read().await.stuff_studios(page, sort_by).await?);
     Ok(vec![]) // TODO!!
+}
+
+#[tauri::command]
+pub(crate) async fn explore_projects(state: State<'_, AppState>, query: ExploreQuery, cursor: Cursor) -> Result<Vec<Project2>> {
+    Ok(Project2::from_vec(state.api.read().await.explore_projects(&query.into(), cursor).await?))
+}
+
+
+#[tauri::command]
+pub(crate) async fn explore_studios(state: State<'_, AppState>, query: ExploreQuery, cursor: Cursor) -> Result<Vec<Studio2>> {
+    Ok(Studio2::from_vec(state.api.read().await.explore_studios(&query.into(), cursor).await?))
+}
+
+#[tauri::command]
+pub(crate) async fn search_projects(state: State<'_, AppState>, query: SearchQuery, cursor: Cursor) -> Result<Vec<Project2>> {
+    Ok(Project2::from_vec(state.api.read().await.search_projects(&query.into(), cursor).await?))
+}
+
+#[tauri::command]
+pub(crate) async fn search_studios(state: State<'_, AppState>, query: SearchQuery, cursor: Cursor) -> Result<Vec<Studio2>> {
+    Ok(Studio2::from_vec(state.api.read().await.search_studios(&query.into(), cursor).await?))
 }

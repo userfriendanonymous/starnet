@@ -41,7 +41,10 @@ fn main() {
 
             stuff_all, stuff_shared, stuff_unshared, stuff_trashed, stuff_studios,
 
+            explore_projects, explore_studios,
+            search_projects, search_studios,
+
         ])
         .run(tauri::generate_context!())
         .expect("error while running tauri application");
-} 
+}

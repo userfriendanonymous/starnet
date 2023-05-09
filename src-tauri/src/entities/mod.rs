@@ -9,6 +9,9 @@ pub use studio_action::*;
 pub use stuff::*;
 pub use front_page::*;
 pub use user_featured::*;
+pub use explore::*;
+pub use language::*;
+pub use search::*;
 
 pub mod user;
 pub mod project;
@@ -19,6 +22,9 @@ pub mod studio_action;
 pub mod stuff;
 pub mod front_page;
 pub mod user_featured;
+pub mod explore;
+pub mod language;
+pub mod search;
 
 pub type Result<T> = std::result::Result<T, Error>;
 

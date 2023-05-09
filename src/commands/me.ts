@@ -1,6 +1,7 @@
-import { StuffStudio } from './../../src-tauri/bindings/StuffStudio';
-import { StuffSharedProject } from './../../src-tauri/bindings/StuffSharedProject';
-import { StuffProject } from './../../src-tauri/bindings/StuffProject';
+import { SearchQuery } from '@bind/SearchQuery';
+import { StuffStudio } from '@bind/StuffStudio';
+import { StuffSharedProject } from '@bind/StuffSharedProject';
+import { StuffProject } from '@bind/StuffProject';
 import { Project2 } from '@bind/Project2';
 import { News } from '@bind/News';
 import { FrontPage } from '@bind/FrontPage';
@@ -8,6 +9,8 @@ import { Login } from '@bind/Login';
 import { command } from ".";
 import { Cursor } from '@bind/Cursor';
 import { Error } from '@bind/Error'
+import { ExploreQuery } from '@bind/ExploreQuery';
+import { Studio2 } from '@bind/Studio2';
 
 export const login = (name: string, password: string) =>
     command<Login, Error>('login', {name, password})
@@ -51,3 +54,14 @@ export const stuffTrashed = (page: number, sortBy: string) =>
 export const stuffStudios = (page: number, sortBy: string) =>
     command<StuffStudio[], Error>('stuff_studios', {page, sortBy})
     
+export const exploreProjects = (query: ExploreQuery, cursor: Cursor) =>
+    command<Project2[], Error>('explore_projects', {query, cursor})
+    
+export const exploreStudios = (query: ExploreQuery, cursor: Cursor) =>
+    command<Studio2[], Error>('explore_studios', {query, cursor})
+    
+export const searchProjects = (query: SearchQuery, cursor: Cursor) =>
+    command<Project2[], Error>('search_projects', {query, cursor})
+
+export const searchStudios = (query: SearchQuery, cursor: Cursor) =>
+    command<Studio2[], Error>('search_studios', {query, cursor})

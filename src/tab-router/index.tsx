@@ -1,4 +1,6 @@
 import { TabManager, Open } from "@/app/tab-manager"
+import Explore from "@/tabs/explore"
+import Search from "@/tabs/search"
 import Stuff from "@/tabs/stuff"
 import Home from "../tabs/home"
 import Project from "../tabs/project"
@@ -18,6 +20,10 @@ export type Route = {
     id: number
 } | {
     to: 'stuff'
+} | {
+    to: 'explore'
+} | {
+    to: 'search'
 }
 
 export default function TabRouter({route, tabManager}: {
@@ -44,6 +50,12 @@ export default function TabRouter({route, tabManager}: {
 
         case 'stuff':
             r = <Stuff openTab={tabManager.open}/>
+
+        case 'explore':
+            r = <Explore openTab={tabManager.open}/>
+
+        case 'search':
+            r = <Search openTab={tabManager.open}/>
     }
 
     return r

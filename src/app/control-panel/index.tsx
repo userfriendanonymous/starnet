@@ -25,6 +25,12 @@ export default function ControlPanel({tabManager, popupManager}: {
             </div>
 
             <div className="flex items-center gap-[0.4rem]">
+                <Button onClick={() => tabManager.open({to: 'explore'}, 'Explore')}>
+                    E
+                </Button>
+                <Button onClick={() => tabManager.open({to: 'search'}, 'Search')}>
+                    Search
+                </Button>
                 <Button onClick={() => popupManager.open({to: 'user'})}>
                     P
                 </Button>
