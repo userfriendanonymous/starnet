@@ -1,3 +1,4 @@
+import { Message } from '@bind/Message';
 import { SearchQuery } from '@bind/SearchQuery';
 import { StuffStudio } from '@bind/StuffStudio';
 import { StuffSharedProject } from '@bind/StuffSharedProject';
@@ -65,3 +66,6 @@ export const searchProjects = (query: SearchQuery, cursor: Cursor) =>
 
 export const searchStudios = (query: SearchQuery, cursor: Cursor) =>
     command<Studio2[], Error>('search_studios', {query, cursor})
+
+export const messages = (cursor: Cursor) =>
+    command<Message[], Error>('messages', {cursor})

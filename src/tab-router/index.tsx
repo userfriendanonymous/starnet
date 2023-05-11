@@ -1,5 +1,6 @@
 import { TabManager, Open } from "@/app/tab-manager"
 import Explore from "@/tabs/explore"
+import Messages from "@/tabs/messages"
 import Search from "@/tabs/search"
 import Stuff from "@/tabs/stuff"
 import Home from "../tabs/home"
@@ -24,6 +25,8 @@ export type Route = {
     to: 'explore'
 } | {
     to: 'search'
+} | {
+    to: 'messages'
 }
 
 export default function TabRouter({route, tabManager}: {
@@ -50,12 +53,19 @@ export default function TabRouter({route, tabManager}: {
 
         case 'stuff':
             r = <Stuff openTab={tabManager.open}/>
+            break
 
         case 'explore':
             r = <Explore openTab={tabManager.open}/>
+            break
 
         case 'search':
             r = <Search openTab={tabManager.open}/>
+            break
+
+        case 'messages':
+            r = <Messages openTab={tabManager.open}/>
+            break
     }
 
     return r

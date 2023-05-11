@@ -53,13 +53,15 @@ export default function ControlPanel({tabManager, popupManager}: {
                         <div className="ml-[3rem] flex items-center gap-[0.3rem]">
                             <div className="text-[0.9rem]">{auth.data.name}</div>
                         </div>
-                        <Button onClick={() => {}}>
-                            O
+                        <Button onClick={() => {
+                            tabManager.open({to: 'messages'}, 'Messages')
+                        }}>
+                            Ms
                         </Button>
                         <Button onClick={() => {
                             tabManager.open({to: 'user', name: auth.data.name}, 'My Profile')
                         }}>
-                            M
+                            Pr
                         </Button>
                         <Button onClick={() => {
                             tabManager.open({to: 'stuff'}, 'My Stuff')

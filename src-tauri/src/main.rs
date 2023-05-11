@@ -40,6 +40,7 @@ fn main() {
             login, front_page, news, projects_loved_by_following, projects_shared_by_following, viewed_projects,
 
             stuff_all, stuff_shared, stuff_unshared, stuff_trashed, stuff_studios,
+            messages,
 
             explore_projects, explore_studios,
             search_projects, search_studios,

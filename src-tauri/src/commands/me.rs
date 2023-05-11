@@ -1,8 +1,8 @@
 use serde::Serialize;
 use tauri::State;
 use ts_rs::TS;
-use crate::{AppState, entities::{Error, Result, FrontPage, News, Project2, StuffProject, StuffSharedProject, StuffStudio, ExploreQuery, Studio2, SearchQuery}, cursor::Cursor, from_vec::FromVec};
-use s2rs::api::{Tokens, UserInfo};
+use crate::{AppState, entities::{Error, Result, FrontPage, News, Project2, StuffProject, StuffSharedProject, StuffStudio, ExploreQuery, Studio2, SearchQuery, Message}, cursor::Cursor, from_vec::FromVec};
+use s2rs::api::{Tokens, UserInfo, GetMessagesError};
 
 #[derive(Serialize, TS)]
 #[ts(export)]
@@ -144,4 +144,12 @@ pub(crate) async fn search_projects(state: State<'_, AppState>, query: SearchQue
 #[tauri::command]
 pub(crate) async fn search_studios(state: State<'_, AppState>, query: SearchQuery, cursor: Cursor) -> Result<Vec<Studio2>> {
     Ok(Studio2::from_vec(state.api.read().await.search_studios(&query.into(), cursor).await?))
+}
+
+#[tauri::command]
+pub(crate) async fn messages(state: State<'_, AppState>, cursor: Cursor) -> Result<Vec<Message>> {
+    Ok(Message::from_vec(state.api.read().await.messages(cursor).await.map_err(|e| match e {
+        GetMessagesError::This(e) => e.into(),
+        GetMessagesError::Parsing(_) => Error::BadResponse
+    })?))
 }
